@@ -99,3 +99,6 @@ app.listen(PORT, () => {
   console.log(`📝 Test API: http://localhost:${PORT}/api/test`);
   console.log(`📧 Contact API: http://localhost:${PORT}/api/contact\n`);
 });
+app.get('/sante', (req, res) => {
+  res.status(200).json({ status: 'OK', service: 'Nour Tech API' });
+});
