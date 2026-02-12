@@ -1,4 +1,4 @@
-// src/pages/Contact.jsx - MODIFIER handleSubmit
+// src/pages/Contact.jsx - METTRE À JOUR LE HANDLESUBMIT
 const handleSubmit = async (e) => {
   e.preventDefault();
   setStatus('loading');
@@ -16,7 +16,13 @@ const handleSubmit = async (e) => {
 
     if (response.ok) {
       setStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ 
+        name: '', 
+        email: '', 
+        phone: '', 
+        subject: '', 
+        message: '' 
+      });
       setTimeout(() => setStatus('idle'), 5000);
     } else {
       setStatus('error');
@@ -27,10 +33,3 @@ const handleSubmit = async (e) => {
     setTimeout(() => setStatus('idle'), 5000);
   }
 };
-
-// Ajouter état error dans le JSX
-{status === 'error' && (
-  <div className="bg-red-50 text-red-700 p-4 rounded-lg mb-6">
-    ❌ Erreur lors de l'envoi. Veuillez réessayer.
-  </div>
-)}
