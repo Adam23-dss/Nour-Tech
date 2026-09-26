@@ -21,7 +21,7 @@ export const Compare = () => {
   if (compareList.length === 0) {
     return (
       <div className="min-h-screen pt-32 pb-20 container mx-auto px-6 text-center">
-        <div className="max-w-md mx-auto bg-gray-50 dark:bg-white/5 p-12 rounded-[3rem] border border-dashed border-gray-200 dark:border-white/10">
+        <div className="max-w-md mx-auto bg-gray-50 dark:bg-white/5 p-12 rounded-2xl border border-dashed border-gray-200 dark:border-white/10">
           <ScaleIcon className="h-20 w-20 text-gray-300 mx-auto mb-6" />
           <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-4">{t('compare.empty')}</h2>
           <p className="text-gray-500 mb-8 dark:text-gray-400">{t('cart.empty')}</p>
@@ -37,7 +37,7 @@ export const Compare = () => {
   }
 
   return (
-    <div className="min-h-screen pt-32 pb-20 bg-white dark:bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 pb-20 bg-white dark:bg-brand-black">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-6">
           <div>
@@ -62,7 +62,7 @@ export const Compare = () => {
               layout
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="relative bg-gray-50 dark:bg-white/5 rounded-[2.5rem] border border-gray-100 dark:border-white/5 overflow-hidden"
+              className="relative bg-gray-50 dark:bg-white/5 rounded-2xl border border-gray-100 dark:border-white/5 overflow-hidden"
             >
               <button 
                 onClick={() => removeFromCompare(p.id)}
@@ -72,7 +72,7 @@ export const Compare = () => {
               </button>
 
               <div className="p-8 pb-0">
-                <div className="aspect-square rounded-3xl bg-white dark:bg-black/20 p-8 mb-8">
+                <div className="aspect-square rounded-2xl bg-white dark:bg-brand-black/20 p-8 mb-8">
                   <ProductImage src={p.image} alt={p.name} />
                 </div>
                 
@@ -112,7 +112,7 @@ export const Compare = () => {
           {compareList.length < 3 && (
             <button 
               onClick={() => navigate('/boutique')}
-              className="flex flex-col items-center justify-center p-12 rounded-[2.5rem] border-4 border-dashed border-gray-100 dark:border-white/5 hover:border-blue-600/30 transition-all group"
+              className="flex flex-col items-center justify-center p-12 rounded-2xl border-4 border-dashed border-gray-100 dark:border-white/5 hover:border-blue-600/30 transition-all group"
             >
               <div className="w-20 h-20 bg-gray-50 dark:bg-white/5 rounded-full flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
                 <ScaleIcon className="h-10 w-10 text-gray-300" />

@@ -49,7 +49,7 @@ export const About = () => {
   ];
 
   return (
-    <div className="bg-white pt-20 dark:bg-[#0a0a0a]">
+    <div className="bg-white pt-20 dark:bg-brand-black">
       {/* HERO */}
       <section className="relative py-32 overflow-hidden bg-gray-900 text-white">
         <div className="absolute inset-0 opacity-20">
@@ -78,7 +78,7 @@ export const About = () => {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -10 }}
-                className="bg-white p-10 rounded-[3rem] shadow-2xl shadow-blue-600/5 border border-gray-100 text-center dark:bg-[#1a1a1a] dark:border-white/10"
+                className="bg-white p-10 rounded-2xl shadow-2xl shadow-blue-600/5 border border-gray-100 text-center dark:bg-[#1a1a1a] dark:border-white/10"
               >
                 <div className="w-16 h-16 bg-blue-50 rounded-2xl flex items-center justify-center mx-auto mb-6 text-blue-600">
                   <s.icon className="h-8 w-8" />
@@ -101,7 +101,7 @@ export const About = () => {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="aspect-[4/5] rounded-[4rem] overflow-hidden shadow-2xl">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
                 <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1000" className="w-full h-full object-cover" alt="Mission" />
               </div>
               <motion.div 
@@ -109,7 +109,7 @@ export const About = () => {
                 whileInView={{ scale: 1, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.4 }}
-                className="absolute -bottom-10 -right-10 bg-blue-600 text-white p-12 rounded-[3rem] shadow-2xl max-w-xs hidden lg:block"
+                className="absolute -bottom-10 -right-10 bg-blue-600 text-white p-12 rounded-2xl shadow-2xl max-w-xs hidden lg:block"
               >
                 <TrophyIcon className="h-12 w-12 mb-6" />
                 <h3 className="text-2xl font-black mb-4 text-white">Engagement Local</h3>
@@ -167,7 +167,7 @@ export const About = () => {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -10 }}
-                className="bg-white rounded-[3rem] overflow-hidden shadow-xl border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
+                className="bg-white rounded-2xl overflow-hidden shadow-xl border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
               >
                 <div className="h-80 overflow-hidden bg-gray-100 dark:bg-white/10">
                   <img src={m.image} alt={m.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />

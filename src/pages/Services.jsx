@@ -5,7 +5,7 @@ import { PageHero } from '../components/ui/PageHero';
 import { techServices, processSteps } from '../data/site';
 
 export const Services = () => (
-  <div className="bg-white dark:bg-[#0a0a0a]">
+  <div className="bg-white dark:bg-brand-black">
     <PageHero
       title="Nos"
       accent="Services"
@@ -27,7 +27,7 @@ export const Services = () => (
               viewport={{ once: true }}
               transition={{ delay: (idx % 4) * 0.1 }}
               whileHover={{ y: -10 }}
-              className="bg-white dark:bg-[#1a1a1a] p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-white/5 flex flex-col group"
+              className="bg-white dark:bg-[#1a1a1a] p-8 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-white/5 flex flex-col group"
             >
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
                 <Icon className="h-8 w-8 text-white" />
@@ -61,7 +61,7 @@ export const Services = () => (
           {processSteps.map((step, idx) => {
             const Icon = step.icon;
             return (
-              <div key={step.title} className="relative bg-white dark:bg-[#1a1a1a] p-8 rounded-[2.5rem] border border-gray-100 dark:border-white/5">
+              <div key={step.title} className="relative bg-white dark:bg-[#1a1a1a] p-8 rounded-2xl border border-gray-100 dark:border-white/5">
                 <span className="absolute top-6 right-8 text-6xl font-black text-gray-100 dark:text-white/5">0{idx + 1}</span>
                 <div className="w-14 h-14 bg-blue-600 text-white rounded-2xl flex items-center justify-center mb-6 relative">
                   <Icon className="h-7 w-7" />
@@ -78,7 +78,7 @@ export const Services = () => (
     {/* CTA */}
     <section className="py-32">
       <div className="container mx-auto px-6">
-        <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-[3rem] p-12 lg:p-20 text-center text-white">
+        <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-2xl p-12 lg:p-20 text-center text-white">
           <h2 className="text-4xl lg:text-5xl font-black mb-6">Un projet en tête ?</h2>
           <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">Parlez-nous de votre besoin : nous vous répondons sous 24h avec une proposition adaptée.</p>
           <Link to="/contact" className="inline-flex items-center px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:scale-105 transition-all">

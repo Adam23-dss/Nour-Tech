@@ -16,7 +16,7 @@ export const CompareDrawer = () => {
       <motion.div 
         initial={{ y: 100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="bg-white dark:bg-[#1a1a1a] shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-[2.5rem] border border-gray-100 dark:border-white/5 p-4 md:p-6"
+        className="bg-white dark:bg-[#1a1a1a] shadow-[0_20px_50px_rgba(0,0,0,0.3)] rounded-2xl border border-gray-100 dark:border-white/5 p-4 md:p-6"
       >
         <div className="flex flex-col md:flex-row items-center gap-6">
           <div className="flex items-center space-x-3 px-4">

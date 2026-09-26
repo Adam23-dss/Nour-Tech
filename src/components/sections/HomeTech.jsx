@@ -13,12 +13,12 @@ const SectionHeader = ({ eyebrow, title, subtitle, link, linkLabel }) => (
     className="flex flex-col md:flex-row justify-between md:items-end gap-8 mb-16"
   >
     <div className="max-w-2xl">
-      <span className="text-blue-600 font-black text-xs uppercase tracking-[0.3em] mb-4 block">{eyebrow}</span>
-      <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6">{title}</h2>
+      <span className="eyebrow mb-4 block">{eyebrow}</span>
+      <h2 className="text-4xl lg:text-5xl font-black text-gray-900 dark:text-white mb-6"><span className="title-mark">{title}</span></h2>
       {subtitle && <p className="text-xl text-gray-600 dark:text-gray-400">{subtitle}</p>}
     </div>
     {link && (
-      <Link to={link} className="self-start md:self-auto px-8 py-4 bg-gray-100 dark:bg-white/5 text-gray-900 dark:text-white font-bold rounded-2xl hover:bg-gray-900 hover:text-white transition-all whitespace-nowrap">
+      <Link to={link} className="btn-xw self-start md:self-auto whitespace-nowrap">
         {linkLabel}
       </Link>
     )}
@@ -46,14 +46,14 @@ export const TechServicesSection = () => (
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
               whileHover={{ y: -10 }}
-              className="bg-white dark:bg-[#1a1a1a] p-8 rounded-[2.5rem] shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-white/5 group"
+              className="bg-white dark:bg-indigo-900 p-8 rounded-2xl shadow-xl shadow-gray-200/50 dark:shadow-none border border-gray-100 dark:border-brand-sky/20 group"
             >
               <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform`}>
                 <Icon className="h-8 w-8 text-white" />
               </div>
               <h3 className="text-xl font-black text-gray-900 dark:text-white mb-3">{s.title}</h3>
               <p className="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">{s.description}</p>
-              <Link to={`/services#${s.slug}`} className="flex items-center text-blue-600 font-bold">
+              <Link to={`/services#${s.slug}`} className="flex items-center text-brand-red font-bold">
                 En savoir plus <ArrowRightIcon className="h-5 w-5 ml-2" />
               </Link>
             </motion.div>
@@ -65,11 +65,12 @@ export const TechServicesSection = () => (
 );
 
 export const ProcessSection = () => (
-  <section className="py-32 bg-gray-900 text-white">
-    <div className="container mx-auto px-6">
+  <section className="relative py-32 bg-brand-black text-white overflow-hidden">
+    <div aria-hidden="true" className="text-outline absolute top-10 left-1/2 -translate-x-1/2 text-[18vw] lg:text-[11rem] font-black uppercase leading-none whitespace-nowrap select-none">Processus</div>
+    <div className="container mx-auto px-6 relative">
       <div className="text-center max-w-3xl mx-auto mb-20">
-        <span className="text-blue-400 font-black text-xs uppercase tracking-[0.3em] mb-4 block">Notre méthode</span>
-        <h2 className="text-4xl lg:text-5xl font-black">4 étapes pour réussir votre projet</h2>
+        <span className="eyebrow mb-4 block">Notre méthode</span>
+        <h2 className="text-4xl lg:text-5xl font-black"><span className="title-mark">4 étapes</span> pour réussir votre projet</h2>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         {processSteps.map((step, idx) => {
@@ -81,9 +82,9 @@ export const ProcessSection = () => (
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="relative bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10"
+              className="relative bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10"
             >
-              <span className="absolute top-6 right-8 text-6xl font-black text-white/5">0{idx + 1}</span>
+              <span className="text-outline absolute top-4 right-6 text-7xl font-black">{idx + 1}</span>
               <div className="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center mb-6">
                 <Icon className="h-7 w-7" />
               </div>

@@ -60,7 +60,7 @@ export const Home = () => {
   ];
 
   return (
-    <div className="bg-white overflow-hidden dark:bg-[#0a0a0a]">
+    <div className="bg-white overflow-hidden dark:bg-brand-black">
       {/* ========================================= */}
       {/* HERO SECTION - DESIGN ULTRA PREMIUM */}
       {/* ========================================= */}
@@ -68,7 +68,7 @@ export const Home = () => {
         {/* Background Elements */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50 dark:from-blue-950/30 to-transparent"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white dark:from-[#0a0a0a] to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white dark:from-black to-transparent"></div>
           
           {/* Animated Blobs */}
           <motion.div 
@@ -79,7 +79,7 @@ export const Home = () => {
           <motion.div 
             animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
             transition={{ duration: 15, repeat: Infinity }}
-            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl"
+            className="absolute bottom-20 left-20 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl"
           ></motion.div>
         </div>
 
@@ -90,13 +90,13 @@ export const Home = () => {
               animate={{ x: 0, opacity: 1 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full mb-6 border border-blue-100">
-                <SparklesIcon className="h-5 w-5 text-blue-600" />
-                <span className="text-blue-700 font-bold text-xs uppercase tracking-widest">Nour Tech 2.0</span>
+              <div className="flex items-center space-x-2 mb-8">
+                <SparklesIcon className="h-5 w-5 text-brand-red" />
+                <span className="eyebrow">Nour Tech 2.0</span>
               </div>
               
-              <h1 className="text-6xl lg:text-8xl font-black text-gray-900 leading-tight mb-8 dark:text-white">
-                {t('hero.title')} <br />
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-black text-gray-900 leading-[1.05] mb-8 dark:text-white">
+                <span className="title-mark">{t('hero.title')}</span> <br />
                 <span className="text-gradient">{t('hero.titleAccent')}</span>
               </h1>
               
@@ -107,14 +107,14 @@ export const Home = () => {
               <div className="flex flex-wrap gap-4">
                 <Link
                   to="/boutique"
-                  className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 hover:scale-105 transition-all shadow-xl shadow-blue-600/25 flex items-center space-x-3"
+                  className="btn-xw text-lg"
                 >
                   <span>{t('hero.cta')}</span>
                   <ArrowRightIcon className="h-5 w-5" />
                 </Link>
                 <Link
                   to="/contact"
-                  className="px-10 py-5 bg-white text-gray-900 border-2 border-gray-100 rounded-2xl font-bold text-lg hover:border-blue-600 hover:text-blue-600 transition-all flex items-center space-x-3 dark:bg-[#1a1a1a] dark:text-white dark:border-white/10"
+                  className="btn-xw-outline text-lg"
                 >
                   <span>{t('hero.devis')}</span>
                 </Link>
@@ -144,16 +144,16 @@ export const Home = () => {
             >
               <div className="relative z-10 animate-float">
                 <img 
-                  src="https://images.unsplash.com/photo-1726590200234-802521c7ba9f?q=80&w=1000&auto=format&fit=crop" 
-                  alt="iPhone 16 Pro"
-                  className="w-full h-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)]"
+                  src="/images/produits/2026/iphone-17-pro-max.png" 
+                  alt="iPhone 17 Pro Max"
+                  className="mx-auto h-[560px] w-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)]"
                 />
               </div>
               {/* Floating Cards */}
               <motion.div 
                 animate={{ y: [0, -10, 0] }}
                 transition={{ duration: 4, repeat: Infinity }}
-                className="absolute top-20 -left-10 glass p-6 rounded-3xl shadow-2xl z-20"
+                className="absolute top-20 -left-10 glass p-6 rounded-2xl shadow-2xl z-20"
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
@@ -168,7 +168,7 @@ export const Home = () => {
               <motion.div 
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-                className="absolute bottom-20 -right-10 glass p-6 rounded-3xl shadow-2xl z-20"
+                className="absolute bottom-20 -right-10 glass p-6 rounded-2xl shadow-2xl z-20"
               >
                 <div className="flex items-center space-x-4">
                   <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600">
@@ -214,9 +214,9 @@ export const Home = () => {
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
                   whileHover={{ y: -10, transition: { duration: 0.2 } }}
-                  className="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
+                  className="bg-white p-10 rounded-2xl shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
                 >
-                  <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform`}>
+                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform`}>
                     <Icon className="h-10 w-10 text-white" />
                   </div>
                   <h3 className="text-2xl font-black text-gray-900 mb-4 dark:text-white">{cat.title}</h3>
@@ -260,7 +260,7 @@ export const Home = () => {
                 viewport={{ once: true }}
                 transition={{ delay: idx * 0.1 }}
                 whileHover={{ scale: 1.02 }}
-                className="group relative bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all dark:bg-[#1a1a1a] dark:border-white/10"
+                className="group relative bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all dark:bg-[#1a1a1a] dark:border-white/10"
               >
                 <Link to={`/product/${p.id}`} className="block aspect-[4/5] overflow-hidden bg-gray-50 dark:bg-white/5">
                   <ProductImage src={p.image} alt={p.name} className={`w-full h-full ${productImageFit(p.image, 'p-8')} group-hover:scale-110 transition-transform duration-500`} />
@@ -331,7 +331,7 @@ export const Home = () => {
               <motion.div 
                 key={idx}
                 whileHover={{ y: -10 }}
-                className="bg-white/5 backdrop-blur-xl p-10 rounded-[3rem] border border-white/10"
+                className="bg-white/5 backdrop-blur-xl p-10 rounded-2xl border border-white/10"
               >
                 <div className="flex items-center space-x-4 mb-8">
                   <img src={t.image} alt={t.name} className="w-16 h-16 rounded-2xl object-cover" />
@@ -357,7 +357,7 @@ export const Home = () => {
       {/* ========================================= */}
       {/* PARTNERS SECTION */}
       {/* ========================================= */}
-      <section className="py-20 bg-white border-y border-gray-100 dark:bg-[#0a0a0a] dark:border-white/5">
+      <section className="py-20 bg-white border-y border-gray-100 dark:bg-brand-black dark:border-white/5">
         <div className="container mx-auto px-6">
           <p className="text-center text-xs font-black uppercase tracking-[0.3em] text-gray-400 mb-12">Ils nous font confiance</p>
           <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
@@ -405,7 +405,7 @@ export const Home = () => {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
+                  className="bg-white dark:bg-[#1a1a1a] p-8 rounded-2xl border border-gray-100 dark:border-white/5 shadow-sm"
                 >
                   <h3 className="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center">
                     <span className="w-8 h-8 bg-blue-100 dark:bg-blue-600/20 text-blue-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 text-sm">?</span>
@@ -422,9 +422,9 @@ export const Home = () => {
       {/* ========================================= */}
       {/* CTA SECTION - ULTRA MODERN */}
       {/* ========================================= */}
-      <section className="py-32 bg-white dark:bg-[#0a0a0a]">
+      <section className="py-32 bg-white dark:bg-brand-black">
         <div className="container mx-auto px-6">
-          <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-[4rem] p-12 lg:p-24 text-center text-white relative overflow-hidden shadow-2xl">
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-2xl p-12 lg:p-24 text-center text-white relative overflow-hidden shadow-2xl">
             {/* Background elements */}
             <div className="absolute inset-0 opacity-10">
               <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
@@ -442,13 +442,13 @@ export const Home = () => {
               <div className="flex flex-wrap justify-center gap-6">
                 <Link
                   to="/contact"
-                  className="px-12 py-6 bg-white text-blue-900 rounded-[2rem] font-bold text-xl hover:scale-105 transition-all shadow-2xl shadow-black/20"
+                  className="px-12 py-6 bg-white text-blue-900 rounded-2xl font-bold text-xl hover:scale-105 transition-all shadow-2xl shadow-black/20"
                 >
                   Démarrer un projet
                 </Link>
                 <a
                   href="tel:+23566750015"
-                  className="px-12 py-6 bg-blue-500/20 backdrop-blur-xl border-2 border-white/20 text-white rounded-[2rem] font-bold text-xl hover:bg-white/10 transition-all flex items-center space-x-3"
+                  className="px-12 py-6 bg-blue-500/20 backdrop-blur-xl border-2 border-white/20 text-white rounded-2xl font-bold text-xl hover:bg-white/10 transition-all flex items-center space-x-3"
                 >
                   <PhoneIcon className="h-6 w-6" />
                   <span>+235 66 75 00 15</span>

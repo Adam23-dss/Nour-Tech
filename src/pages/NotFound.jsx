@@ -4,7 +4,7 @@ import { HomeIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 
 export const NotFound = () => {
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-6 dark:bg-[#0a0a0a]">
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 dark:bg-brand-black">
       <div className="text-center">
         <h1 className="text-9xl font-black text-blue-600 mb-4">404</h1>
         <h2 className="text-3xl font-bold text-gray-900 mb-6 dark:text-white">Page non trouvée</h2>

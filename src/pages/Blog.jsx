@@ -7,7 +7,7 @@ import { blogPosts, formatDate } from '../data/site';
 export const BlogCard = ({ post }) => (
   <motion.article
     whileHover={{ y: -10 }}
-    className="group bg-white dark:bg-[#1a1a1a] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all flex flex-col"
+    className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all flex flex-col"
   >
     <Link to={`/blog/${post.slug}`} className="block h-56 overflow-hidden">
       <img src={post.image} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -29,7 +29,7 @@ export const BlogCard = ({ post }) => (
 );
 
 export const Blog = () => (
-  <div className="bg-white dark:bg-[#0a0a0a]">
+  <div className="bg-white dark:bg-brand-black">
     <PageHero
       title="Blog &"
       accent="Actualités"
@@ -60,11 +60,11 @@ export const BlogPost = () => {
   const others = blogPosts.filter((p) => p.slug !== slug).slice(0, 2);
 
   return (
-    <div className="bg-white dark:bg-[#0a0a0a]">
+    <div className="bg-white dark:bg-brand-black">
       <PageHero title={post.title} crumbs={[{ label: 'Blog', to: '/blog' }, { label: post.category }]} />
       <article className="py-24">
         <div className="container mx-auto px-6 max-w-3xl">
-          <img src={post.image} alt={post.title} className="w-full h-80 object-cover rounded-[2.5rem] mb-10 shadow-xl" />
+          <img src={post.image} alt={post.title} className="w-full h-80 object-cover rounded-2xl mb-10 shadow-xl" />
           <div className="flex items-center gap-3 text-sm font-bold mb-8">
             <span className="text-blue-600 uppercase tracking-widest">{post.category}</span>
             <span className="text-gray-400">{formatDate(post.date)}</span>

@@ -55,8 +55,8 @@ export const Header = () => {
       className={`
         fixed top-0 left-0 right-0 z-50 transition-all duration-500
         ${scrolled 
-          ? 'bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-2xl shadow-xl py-3 border-b border-gray-100 dark:border-white/5' 
-          : 'bg-transparent py-6'
+          ? 'bg-white/90 dark:bg-brand-black/90 backdrop-blur-2xl shadow-xl py-3 border-b border-gray-100 dark:border-white/5'
+          : 'bg-transparent py-5'
         }
       `}
     >
@@ -67,18 +67,18 @@ export const Header = () => {
           <Link to="/" className="flex items-center space-x-3 group">
             <motion.div 
               whileHover={{ rotate: 10, scale: 1.1 }}
-              className="w-12 h-12 bg-blue-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-600/30"
+              className="w-12 h-12 bg-gradient-to-br from-brand-sky to-brand-blue rounded-xl flex items-center justify-center shadow-lg shadow-brand-blue/30"
             >
-              <span className="text-white text-xl font-black">NT</span>
+              <span className="text-white text-xl font-black font-display">NT</span>
             </motion.div>
             <div className="flex flex-col">
-              <span className="text-xl font-black text-gray-900 dark:text-white tracking-tighter leading-none whitespace-nowrap">Nour Tech</span>
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-600">Premium</span>
+              <span className="text-2xl font-black font-display uppercase tracking-tight leading-none whitespace-nowrap"><span className="text-brand-sky">Nour</span><span className="text-gray-900 dark:text-white">Tech</span></span>
+              <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-brand-red">Premium</span>
             </div>
           </Link>
 
           {/* DESKTOP NAV */}
-          <div className="hidden xl:flex items-center bg-gray-100/50 dark:bg-white/5 backdrop-blur-md p-1.5 rounded-2xl border border-gray-200/50 dark:border-white/10">
+          <div className="hidden xl:flex items-center gap-1 2xl:gap-3">
             {navigation.map((item) => {
               const isActive = item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href);
               return (
@@ -86,14 +86,14 @@ export const Header = () => {
                   key={item.name}
                   to={item.href}
                   className={`
-                    relative px-3 2xl:px-4 py-2.5 text-sm font-black rounded-xl whitespace-nowrap transition-all duration-300
-                    ${isActive ? 'text-white' : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'}
+                    relative px-3 py-2 font-display text-[15px] font-semibold whitespace-nowrap transition-colors duration-300
+                    ${isActive ? 'text-brand-red' : 'text-gray-800 dark:text-white hover:text-brand-sky'}
                   `}
                 >
                   {isActive && (
                     <motion.span 
                       layoutId="activeTab"
-                      className="absolute inset-0 bg-blue-600 rounded-xl shadow-lg shadow-blue-600/20"
+                      className="absolute left-1/2 -translate-x-1/2 -bottom-0.5 h-1 w-6 rounded-full bg-brand-sky"
                     />
                   )}
                   <span className="relative z-10">{item.name}</span>
@@ -161,7 +161,7 @@ export const Header = () => {
             
             <Link 
               to="/contact" 
-              className="hidden sm:flex xl:hidden 2xl:flex whitespace-nowrap px-6 py-3 bg-gray-900 dark:bg-blue-600 text-white rounded-xl font-black text-xs uppercase tracking-widest hover:bg-black dark:hover:bg-blue-700 transition-all shadow-xl shadow-black/10 active:scale-95"
+              className="btn-xw hidden sm:flex xl:hidden 2xl:flex whitespace-nowrap !px-6 !py-3 text-sm"
             >
               {t('nav.quote')}
             </Link>

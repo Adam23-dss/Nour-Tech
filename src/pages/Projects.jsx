@@ -12,7 +12,7 @@ export const ProjectCard = ({ project }) => (
     animate={{ opacity: 1, scale: 1 }}
     exit={{ opacity: 0, scale: 0.95 }}
     whileHover={{ y: -10 }}
-    className="group bg-white dark:bg-[#1a1a1a] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
+    className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
   >
     <div className="relative h-60 overflow-hidden">
       <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
@@ -36,7 +36,7 @@ export const Projects = () => {
   const visible = active === 'Tous' ? projects : projects.filter((p) => p.category === active);
 
   return (
-    <div className="bg-white dark:bg-[#0a0a0a]">
+    <div className="bg-white dark:bg-brand-black">
       <PageHero
         title="Nos"
         accent="Réalisations"

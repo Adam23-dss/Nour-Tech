@@ -3,7 +3,7 @@ import imageCredits from '../data/imageCredits.json';
 
 export const MentionsLegales = () => {
   return (
-    <div className="min-h-screen pt-32 pb-20 bg-white dark:bg-[#0a0a0a]">
+    <div className="min-h-screen pt-32 pb-20 bg-white dark:bg-brand-black">
       <div className="container mx-auto px-6 max-w-4xl">
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}

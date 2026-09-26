@@ -74,7 +74,7 @@ export const Shop = () => {
   }), [products, selectedCategory, searchQuery]);
 
   return (
-    <div className="bg-white dark:bg-[#0a0a0a]">
+    <div className="bg-white dark:bg-brand-black">
       <PageHero
         title={i18n.language === 'ar' ? 'كتالوجنا' : 'Notre'}
         accent={t('nav.shop')}
@@ -85,7 +85,7 @@ export const Shop = () => {
       />
 
       {/* FILTERS & SEARCH */}
-      <section className="2xl:sticky 2xl:top-[80px] z-30 bg-white/80 dark:bg-[#0a0a0a]/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 py-4">
+      <section className="2xl:sticky 2xl:top-[80px] z-30 bg-white/80 dark:bg-brand-black/80 backdrop-blur-xl border-b border-gray-100 dark:border-white/5 py-4">
         <div className="container mx-auto px-6">
           <div className="flex flex-col 2xl:flex-row gap-4 items-center justify-between">
             {/* Search */}
@@ -116,7 +116,7 @@ export const Shop = () => {
               transition={{ delay: 0.1 }}
               className="w-full 2xl:w-auto"
             >
-              <div className="flex flex-wrap justify-center gap-2 bg-gray-50 dark:bg-white/5 p-2 rounded-[2rem] border border-gray-100 dark:border-white/5">
+              <div className="flex flex-wrap justify-center gap-2 bg-gray-50 dark:bg-white/5 p-2 rounded-2xl border border-gray-100 dark:border-white/5">
                 {categories.map((cat) => {
                   const Icon = cat.icon;
                   const isActive = selectedCategory === cat.id;
@@ -161,7 +161,7 @@ export const Shop = () => {
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ delay: idx * 0.05 }}
                   whileHover={{ y: -10 }}
-                  className="group bg-white dark:bg-[#1a1a1a] rounded-[2.5rem] overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
+                  className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
                 >
                   {/* Image */}
                   <div className="relative h-72 bg-gray-50 dark:bg-white/5 overflow-hidden">
@@ -259,7 +259,7 @@ export const Shop = () => {
             <motion.div
               key={idx}
               whileHover={{ y: -5 }}
-              className="bg-white/5 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/10 hover:bg-white/10 transition-all group"
+              className="bg-white/5 backdrop-blur-xl p-8 rounded-2xl border border-white/10 hover:bg-white/10 transition-all group"
             >
               <div className="text-4xl mb-6 bg-blue-600/20 w-16 h-16 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform">{s.icon}</div>
               <h3 className="text-xl font-black mb-4">{s.name}</h3>

@@ -27,7 +27,7 @@ export const CartDrawer = () => {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-y-0 right-0 w-full max-w-lg bg-white shadow-[0_0_100px_rgba(0,0,0,0.2)] z-[101] flex flex-col dark:bg-[#0a0a0a]"
+            className="fixed inset-y-0 right-0 w-full max-w-lg bg-white shadow-[0_0_100px_rgba(0,0,0,0.2)] z-[101] flex flex-col dark:bg-brand-black"
           >
             {/* Header */}
             <div className="p-8 border-b border-gray-100 flex items-center justify-between dark:border-white/10">
@@ -121,7 +121,7 @@ export const CartDrawer = () => {
                     total: total
                   }}
                   onClick={() => setIsOpen(false)}
-                  className="block w-full py-6 bg-blue-600 text-white text-center rounded-[2rem] font-black text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/30"
+                  className="block w-full py-6 bg-blue-600 text-white text-center rounded-2xl font-black text-xl hover:bg-blue-700 transition-all shadow-2xl shadow-blue-600/30"
                 >
                   {t('cart.checkout')}
                 </Link>

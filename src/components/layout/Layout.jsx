@@ -2,12 +2,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { ScrollTopButton } from '../ui/ScrollTopButton';
 
 export const Layout = ({ children }) => {
   const { pathname } = useLocation();
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-[#0a0a0a] selection:bg-blue-600 selection:text-white">
+    <div className="min-h-screen flex flex-col bg-brand-bg dark:bg-brand-black selection:bg-brand-red selection:text-white">
       <Header />
       <AnimatePresence mode="wait">
         <motion.main
@@ -22,6 +23,7 @@ export const Layout = ({ children }) => {
         </motion.main>
       </AnimatePresence>
       <Footer />
+      <ScrollTopButton />
     </div>
   );
 };

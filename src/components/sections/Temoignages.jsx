@@ -25,7 +25,7 @@ export const Temoignages = () => {
   ];
 
   return (
-    <section className="py-16 bg-white dark:bg-[#0a0a0a]">
+    <section className="py-16 bg-white dark:bg-brand-black">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-4">
           Ce que disent nos clients

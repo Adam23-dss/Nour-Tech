@@ -55,7 +55,7 @@ export const Contact = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-[#0a0a0a] pt-20">
+    <div className="bg-white dark:bg-brand-black pt-20">
       {/* HEADER */}
       <section className="bg-gray-900 py-32 text-white relative overflow-hidden">
         <div className="absolute inset-0 opacity-10">
@@ -86,14 +86,14 @@ export const Contact = () => {
           <motion.div 
             initial={{ x: -20, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
-            className="bg-white dark:bg-[#1a1a1a] p-12 rounded-[3rem] shadow-2xl border border-gray-100 dark:border-white/5"
+            className="bg-white dark:bg-[#1a1a1a] p-12 rounded-2xl shadow-2xl border border-gray-100 dark:border-white/5"
           >
             <h2 className="text-3xl font-black text-gray-900 dark:text-white mb-8">
               {i18n.language === 'ar' ? 'أرسل رسالة' : 'Envoyer un message'}
             </h2>
             
             {status === 'success' ? (
-              <div className="bg-green-50 dark:bg-green-900/20 p-8 rounded-3xl border border-green-200 dark:border-green-800 text-center">
+              <div className="bg-green-50 dark:bg-green-900/20 p-8 rounded-2xl border border-green-200 dark:border-green-800 text-center">
                 <CheckCircleIcon className="h-16 w-16 text-green-500 mx-auto mb-4" />
                 <h3 className="text-2xl font-black text-green-900 dark:text-green-400 mb-2">Message envoyé !</h3>
                 <p className="text-green-700 dark:text-green-300 font-medium">Nous vous recontacterons très rapidement.</p>
@@ -183,7 +183,7 @@ export const Contact = () => {
             </div>
 
             {/* AIRTEL MONEY CARD */}
-            <div className="bg-gradient-to-br from-red-600 to-red-800 p-10 rounded-[3rem] text-white shadow-2xl shadow-red-600/20">
+            <div className="bg-gradient-to-br from-red-600 to-red-800 p-10 rounded-2xl text-white shadow-2xl shadow-red-600/20">
               <div className="flex items-center space-x-4 mb-6">
                 <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-xl flex items-center justify-center">
                   <span className="text-2xl">💳</span>

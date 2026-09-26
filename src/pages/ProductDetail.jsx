@@ -64,7 +64,7 @@ export const ProductDetail = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="bg-white pt-32 pb-20 dark:bg-[#0a0a0a]"
+      className="bg-white pt-32 pb-20 dark:bg-brand-black"
     >
       <div className="container mx-auto px-6">
         <button 
@@ -82,7 +82,7 @@ export const ProductDetail = () => {
             animate={{ x: 0, opacity: 1 }}
             className="relative"
           >
-            <div className="aspect-square rounded-3xl overflow-hidden bg-gray-50 border border-gray-100 shadow-inner dark:bg-white/5 dark:border-white/10">
+            <div className="aspect-square rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 shadow-inner dark:bg-white/5 dark:border-white/10">
               <img 
                 src={product.image} 
                 alt={product.name}

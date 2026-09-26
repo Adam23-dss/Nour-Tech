@@ -1,54 +1,142 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
-@layer base {
-  :root {
-    --font-inter: 'Inter', sans-serif;
-    --font-lexend: 'Lexend', sans-serif;
-    --font-cairo: 'Cairo', sans-serif;
-  }
+/* Charte Nour Tech : bleu, bleu clair, rouge, noir (mise en page style agence tech).
+   La palette "blue" de Tailwind est remappée sur le bleu de la marque et "indigo" sur le bleu foncé,
+   ce qui recolore tout le site sans toucher chaque composant. */
+:root {
+  --bleu: #1E3FA8;
+  --bleu-clair: #2F80D6;
+  --rouge: #E0201B;
+  --noir: #111111;
+  --fond: #F5F6F8;
+  --blanc: #FFFFFF;
+}
 
+@theme {
+  --color-blue-50: #eef3fc;
+  --color-blue-100: #dbe6f8;
+  --color-blue-200: #b9cdf1;
+  --color-blue-300: #8fb3e8;
+  --color-blue-400: #5a9be0;
+  --color-blue-500: #2f80d6;
+  --color-blue-600: #1e3fa8;
+  --color-blue-700: #19358d;
+  --color-blue-800: #152b72;
+  --color-blue-900: #11235c;
+  --color-blue-950: #0b173d;
+
+  --color-indigo-500: #2f80d6;
+  --color-indigo-600: #1e3fa8;
+  --color-indigo-900: #0b173d;
+
+  --color-brand-blue: #1e3fa8;
+  --color-brand-sky: #2f80d6;
+  --color-brand-red: #e0201b;
+  --color-brand-black: #111111;
+  --color-brand-bg: #f5f6f8;
+
+  --font-sans: 'Open Sans', sans-serif;
+  --font-display: 'Jost', sans-serif;
+}
+
+/* En mode sombre, le bleu principal passe au bleu clair pour rester lisible sur le noir */
+.dark {
+  --color-blue-600: #2f80d6;
+  --color-blue-700: #1e3fa8;
+}
+
+@layer base {
   html {
     scroll-behavior: smooth;
-    font-family: var(--font-inter);
+    font-family: var(--font-sans);
   }
 
   html[lang="ar"] {
-    font-family: var(--font-cairo);
+    font-family: 'Cairo', sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-lexend);
+    font-family: var(--font-display);
     @apply tracking-tight;
   }
 
-  html[lang="ar"] h1, 
-  html[lang="ar"] h2, 
-  html[lang="ar"] h3, 
-  html[lang="ar"] h4, 
-  html[lang="ar"] h5, 
+  html[lang="ar"] h1,
+  html[lang="ar"] h2,
+  html[lang="ar"] h3,
+  html[lang="ar"] h4,
+  html[lang="ar"] h5,
   html[lang="ar"] h6 {
-    font-family: var(--font-cairo);
+    font-family: 'Cairo', sans-serif;
   }
 }
 
 @layer utilities {
   .glass {
-    @apply bg-white/70 backdrop-blur-xl border border-white/20;
+    @apply bg-white/70 dark:bg-white/5 backdrop-blur-xl border border-white/20 dark:border-white/10;
   }
-  
+
   .glass-dark {
     @apply bg-black/40 backdrop-blur-xl border border-white/10;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-brand-sky to-brand-red;
   }
-  
+
+  /* Bouton principal : rouge de la marque */
+  .btn-xw {
+    background: linear-gradient(135deg, #e0201b, #ff4a3d);
+    @apply inline-flex items-center justify-center gap-2 text-white font-bold rounded-lg px-8 py-4 shadow-lg shadow-brand-red/25 transition-all duration-300 hover:brightness-110 hover:-translate-y-0.5 active:translate-y-0;
+  }
+
+  /* Bouton secondaire : contour bleu */
+  .btn-xw-outline {
+    @apply inline-flex items-center justify-center gap-2 font-bold rounded-lg px-8 py-4 border-2 border-brand-sky text-gray-900 dark:text-white transition-all duration-300 hover:bg-brand-sky hover:text-white;
+  }
+
+  /* Petit titre au-dessus des sections */
+  .eyebrow {
+    @apply font-bold text-xs uppercase tracking-[0.2em] text-brand-red;
+  }
+
+  /* Bloc dégradé bleu derrière le début d'un titre */
+  .title-mark {
+    position: relative;
+    isolation: isolate;
+  }
+  .title-mark::before {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    left: -0.35em;
+    top: -0.15em;
+    width: 1.3em;
+    height: 1.3em;
+    background: linear-gradient(135deg, #2f80d6, #1e3fa8);
+    opacity: 0.85;
+  }
+
+  html:not(.dark) .title-mark::before {
+    opacity: 0.2;
+  }
+
+  /* Grand mot en contour, en fond de section */
+  .text-outline {
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(255 255 255 / 0.12);
+    font-family: var(--font-display);
+  }
+
+  /* Bulle dégradée bleu -> rouge (icônes de contact) */
+  .orb {
+    background: linear-gradient(135deg, #2f80d6, #1e3fa8 55%, #e0201b);
+  }
+
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-pulse-slow {
     animation: pulse-slow 3s ease-in-out infinite;
   }
@@ -69,7 +157,7 @@ body {
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply text-gray-900 bg-white dark:bg-[#0a0a0a] dark:text-gray-100 transition-colors duration-300;
+  @apply text-brand-black bg-brand-bg dark:bg-brand-black dark:text-gray-100 transition-colors duration-300;
 }
 
 /* Custom Scrollbar */
@@ -78,15 +166,15 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  @apply bg-gray-50;
+  @apply bg-gray-50 dark:bg-brand-black;
 }
 
 ::-webkit-scrollbar-thumb {
-  @apply bg-gray-300 rounded-full border-2 border-transparent bg-clip-content;
+  @apply bg-gray-300 dark:bg-brand-blue rounded-full;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-gray-400;
+  @apply bg-gray-400 dark:bg-brand-sky;
 }
 
 /* Smooth route transitions */
