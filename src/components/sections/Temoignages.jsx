@@ -25,26 +25,26 @@ export const Temoignages = () => {
   ];
 
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-white dark:bg-[#0a0a0a]">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-4">
           Ce que disent nos clients
         </h2>
-        <p className="text-xl text-gray-600 text-center mb-12">
+        <p className="text-xl text-gray-600 text-center mb-12 dark:text-gray-400">
           Ils nous ont fait confiance
         </p>
         
         <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {temoignages.map((t, index) => (
-            <div key={index} className="bg-gray-50 p-6 rounded-xl">
+            <div key={index} className="bg-gray-50 p-6 rounded-xl dark:bg-white/5">
               <div className="flex text-yellow-400 mb-4">
                 {"★".repeat(t.note)}
                 {"☆".repeat(5 - t.note)}
               </div>
-              <p className="text-gray-700 mb-6 italic">"{t.avis}"</p>
+              <p className="text-gray-700 mb-6 italic dark:text-gray-400">"{t.avis}"</p>
               <div>
                 <p className="font-bold">{t.nom}</p>
-                <p className="text-sm text-gray-500">{t.produit} • {t.date}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">{t.produit} • {t.date}</p>
               </div>
             </div>
           ))}

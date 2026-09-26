@@ -13,7 +13,7 @@ export const ProduitsPopulaires = () => {
       id: 2,
       nom: "Samsung S24 Ultra",
       prix: "650 000",
-      image: "/images/produits/samsung-s24.jpg",
+      image: "/images/produits/galaxy-s24-ultra.jpg",
       categorie: "Téléphone",
       badge: "Populaire"
     },
@@ -52,18 +52,18 @@ export const ProduitsPopulaires = () => {
   ];
 
   return (
-    <section className="py-16 bg-gray-50">
+    <section className="py-16 bg-gray-50 dark:bg-white/5">
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold text-center mb-4">
           Produits populaires
         </h2>
-        <p className="text-xl text-gray-600 text-center mb-12">
+        <p className="text-xl text-gray-600 text-center mb-12 dark:text-gray-400">
           Les meilleures ventes du moment
         </p>
         
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
           {produits.map((produit) => (
-            <div key={produit.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition group">
+            <div key={produit.id} className="bg-white rounded-xl shadow-sm hover:shadow-lg transition group dark:bg-[#1a1a1a]">
               <div className="relative">
                 <img 
                   src={produit.image} 
@@ -81,12 +81,12 @@ export const ProduitsPopulaires = () => {
                 )}
               </div>
               <div className="p-4">
-                <div className="text-sm text-gray-500 mb-1">{produit.categorie}</div>
+                <div className="text-sm text-gray-500 mb-1 dark:text-gray-400">{produit.categorie}</div>
                 <h3 className="font-bold text-lg mb-2">{produit.nom}</h3>
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-xl font-bold text-blue-600">{produit.prix} F</span>
-                    <span className="text-xs text-gray-500 ml-1">CFA</span>
+                    <span className="text-xs text-gray-500 ml-1 dark:text-gray-400">CFA</span>
                   </div>
                   <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-blue-700 transition">
                     Devis
@@ -98,7 +98,7 @@ export const ProduitsPopulaires = () => {
         </div>
         
         <div className="text-center mt-12">
-          <a href="/services" className="inline-block border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
+          <a href="/boutique" className="inline-block border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition">
             Voir tous les produits →
           </a>
         </div>

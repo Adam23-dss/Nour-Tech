@@ -1,403 +1,478 @@
-// src/pages/Home.jsx - DESIGN MODERNE & ÉLÉGANT
-import { ArrowRightIcon, PhoneIcon, DevicePhoneMobileIcon, ComputerDesktopIcon, GlobeAltIcon, WrenchScrewdriverIcon } from '@heroicons/react/24/outline';
+import { motion } from 'framer-motion';
+import { ArrowRightIcon, PhoneIcon, DevicePhoneMobileIcon, ComputerDesktopIcon, GlobeAltIcon, WrenchScrewdriverIcon, ShieldCheckIcon, TruckIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { ProductImage, productImageFit } from '../components/ui/ProductImage';
+import { TechServicesSection, ProcessSection, ProjectsSection, BlogSection } from '../components/sections/HomeTech';
 
 export const Home = () => {
+  const { t } = useTranslation();
+  const [popularProducts, setPopularProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/products');
+        setPopularProducts(response.data.slice(0, 4));
+      } catch (error) {
+        console.error('Error fetching products', error);
+      }
+    };
+    fetchProducts();
+  }, []);
+
+  const getImageUrl = (imagePath) => {
+    if (imagePath?.startsWith('http')) return imagePath;
+    return `http://localhost:5000${imagePath?.replace('/images/produits', '/uploads')}`;
+  };
+
   const categories = [
     {
-      title: "Téléphones",
-      description: "iPhone, Samsung, Xiaomi",
+      title: t('categories.phones'),
+      description: "Derniers modèles iPhone, Samsung et Xiaomi au meilleur prix.",
       icon: DevicePhoneMobileIcon,
-      color: "from-purple-500 to-purple-600",
-      bgLight: "bg-purple-50",
-      textColor: "text-purple-600",
-      features: ["Neuf & reconditionné", "Tous modèles", "Garantie 12 mois"]
+      color: "from-blue-500 to-indigo-600",
+      link: "/boutique?cat=phones"
     },
     {
-      title: "Ordinateurs",
-      description: "MacBook, Dell, HP",
+      title: t('categories.computers'),
+      description: "MacBook, Dell et HP pour professionnels et étudiants.",
       icon: ComputerDesktopIcon,
-      color: "from-blue-500 to-blue-600",
-      bgLight: "bg-blue-50",
-      textColor: "text-blue-600",
-      features: ["PC portables & fixes", "Pièces détachées", "Accessoires"]
+      color: "from-purple-500 to-pink-600",
+      link: "/boutique?cat=computers"
     },
     {
-      title: "Import",
-      description: "Dubaï, Chine, Europe",
+      title: t('categories.import'),
+      description: "Produits sur mesure depuis Dubaï, la Chine et l'Europe.",
       icon: GlobeAltIcon,
-      color: "from-green-500 to-green-600",
-      bgLight: "bg-green-50",
-      textColor: "text-green-600",
-      features: ["Délai 7-10 jours", "Prix compétitifs", "Produits authentiques"]
+      color: "from-emerald-500 to-teal-600",
+      link: "/contact"
     },
     {
-      title: "Maintenance",
-      description: "Réparation & entretien",
+      title: t('categories.repair'),
+      description: "Réparation express et diagnostic gratuit par des experts.",
       icon: WrenchScrewdriverIcon,
-      color: "from-orange-500 to-orange-600",
-      bgLight: "bg-orange-50",
-      textColor: "text-orange-600",
-      features: ["Changement écran", "Batterie", "Diagnostic gratuit"]
-    }
-  ];
-
-  const produitsPopulaires = [
-    {
-      nom: "iPhone 15 Pro",
-      prix: "750 000",
-      image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500",
-      badge: "Nouveau",
-      couleur: "bg-gradient-to-br from-gray-800 to-gray-900"
-    },
-    {
-      nom: "Samsung S24 Ultra",
-      prix: "650 000",
-      image: "https://images.unsplash.com/photo-1705355582213-96d254d8f7fa?w=500",
-      badge: "Populaire",
-      couleur: "bg-gradient-to-br from-blue-800 to-blue-900"
-    },
-    {
-      nom: "MacBook Pro M3",
-      prix: "950 000",
-      image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500",
-      badge: "Premium",
-      couleur: "bg-gradient-to-br from-gray-700 to-gray-800"
-    },
-    {
-      nom: "Dell XPS 15",
-      prix: "550 000",
-      image: "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=500",
-      badge: "Recommandé",
-      couleur: "bg-gradient-to-br from-blue-700 to-blue-800"
+      color: "from-orange-500 to-red-600",
+      link: "/boutique#reparation"
     }
   ];
 
   return (
-    <div className="bg-white">
-      {/* HERO SECTION - DESIGN MODERNE AVEC OVERLAY GRADIENT */}
-      <section className="relative min-h-[600px] flex items-center justify-center overflow-hidden">
-        {/* Background Image avec overlay */}
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=1920" 
-            alt="Technology"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 via-blue-800/90 to-purple-900/90"></div>
-        </div>
-        
-        {/* Contenu Hero */}
-        <div className="relative container mx-auto px-6 py-32 text-center">
-          <div className="max-w-4xl mx-auto">
-            {/* Badge */}
-            <div className="inline-flex items-center bg-white/10 backdrop-blur-sm px-6 py-2 rounded-full border border-white/20 mb-8">
-              <span className="text-white/90 text-sm tracking-wider">🇹🇩 VOTRE PARTENAIRE TECH AU TCHAD</span>
-            </div>
-            
-            {/* Titre avec effet */}
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-white to-blue-100 bg-clip-text text-transparent">
-                Nour Tech
-              </span>
-            </h1>
-            
-            <p className="text-2xl md:text-3xl text-white/90 mb-4 font-light">
-              La technologie, à votre portée
-            </p>
-            
-            <p className="text-xl text-white/80 mb-12 max-w-2xl mx-auto">
-              Vente • Import • Service • Maintenance
-            </p>
-            
-            {/* CTA Buttons */}
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link
-                to="/contact"
-                className="group bg-white text-blue-900 px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all flex items-center space-x-2"
-              >
-                <span>Demander un devis</span>
-                <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition" />
-              </Link>
-              <Link
-                to="/services"
-                className="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-semibold text-lg hover:bg-white/10 hover:scale-105 transition-all flex items-center space-x-2"
-              >
-                <span>Nos services</span>
-              </Link>
-            </div>
-            
-            {/* Statistiques */}
-            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mt-20 pt-8 border-t border-white/20">
-              <div>
-                <div className="text-3xl font-bold text-white">500+</div>
-                <div className="text-sm text-white/70">Clients satisfaits</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white">1000+</div>
-                <div className="text-sm text-white/70">Produits vendus</div>
-              </div>
-              <div>
-                <div className="text-3xl font-bold text-white">24/7</div>
-                <div className="text-sm text-white/70">Support technique</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Wave Effect */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="white"/>
-          </svg>
-        </div>
-      </section>
-
-      {/* CATÉGORIES - DESIGN CARTES MODERNES */}
-      <section className="py-24 container mx-auto px-6">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <span className="text-sm uppercase tracking-wider text-blue-600 font-semibold">NOS SERVICES</span>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4 mb-6">
-            Solutions complètes pour vos besoins tech
-          </h2>
-          <p className="text-xl text-gray-600">
-            Téléphones, ordinateurs, import et réparation - tout au même endroit
-          </p>
-        </div>
-        
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
-          {categories.map((cat, index) => {
-            const Icon = cat.icon;
-            return (
-              <div 
-                key={index} 
-                className="group relative bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 overflow-hidden"
-              >
-                {/* Background gradient on hover */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${cat.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-                
-                <div className="p-8">
-                  {/* Icon Container */}
-                  <div className={`${cat.bgLight} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                    <Icon className={`h-8 w-8 ${cat.textColor}`} />
-                  </div>
-                  
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">{cat.title}</h3>
-                  <p className="text-gray-600 mb-6">{cat.description}</p>
-                  
-                  <ul className="space-y-3">
-                    {cat.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-center text-gray-600 text-sm">
-                        <span className={`${cat.textColor} mr-2 text-lg`}>✓</span>
-                        {feature}
-                      </li>
-                    ))}
-                  </ul>
-                  
-                  <Link 
-                    to="/services" 
-                    className={`mt-8 inline-flex items-center text-sm font-semibold ${cat.textColor} hover:gap-2 transition-all`}
-                  >
-                    En savoir plus
-                    <ArrowRightIcon className="h-4 w-4 ml-1" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* PRODUITS POPULAIRES - DESIGN SHOP */}
-      <section className="py-24 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <div className="flex justify-between items-end mb-12">
-            <div>
-              <span className="text-sm uppercase tracking-wider text-blue-600 font-semibold">NOTRE SÉLECTION</span>
-              <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mt-4">
-                Produits populaires
-              </h2>
-            </div>
-            <Link 
-              to="/services" 
-              className="hidden md:flex items-center text-gray-600 hover:text-blue-600 font-semibold group"
-            >
-              Voir tous les produits
-              <ArrowRightIcon className="h-5 w-5 ml-2 group-hover:translate-x-1 transition" />
-            </Link>
-          </div>
+    <div className="bg-white overflow-hidden dark:bg-[#0a0a0a]">
+      {/* ========================================= */}
+      {/* HERO SECTION - DESIGN ULTRA PREMIUM */}
+      {/* ========================================= */}
+      <section className="relative min-h-screen flex items-center pt-20">
+        {/* Background Elements */}
+        <div className="absolute inset-0 z-0">
+          <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-blue-50 dark:from-blue-950/30 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-white dark:from-[#0a0a0a] to-transparent"></div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {produitsPopulaires.map((produit, index) => (
-              <div key={index} className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
-                <div className="relative h-64 overflow-hidden bg-gray-100">
-                  <img 
-                    src={produit.image} 
-                    alt={produit.nom}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                  />
-                  {produit.badge && (
-                    <span className="absolute top-4 right-4 bg-gradient-to-r from-yellow-400 to-yellow-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg">
-                      {produit.badge}
-                    </span>
-                  )}
-                </div>
-                
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">{produit.nom}</h3>
-                  <div className="flex justify-between items-center">
-                    <div>
-                      <span className="text-2xl font-bold text-blue-600">{produit.prix}</span>
-                      <span className="text-sm text-gray-500 ml-1">FCFA</span>
+          {/* Animated Blobs */}
+          <motion.div 
+            animate={{ scale: [1, 1.2, 1], rotate: [0, 90, 0] }}
+            transition={{ duration: 20, repeat: Infinity }}
+            className="absolute top-20 right-20 w-96 h-96 bg-blue-400/10 rounded-full blur-3xl"
+          ></motion.div>
+          <motion.div 
+            animate={{ scale: [1.2, 1, 1.2], rotate: [90, 0, 90] }}
+            transition={{ duration: 15, repeat: Infinity }}
+            className="absolute bottom-20 left-20 w-96 h-96 bg-purple-400/10 rounded-full blur-3xl"
+          ></motion.div>
+        </div>
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <motion.div 
+              initial={{ x: -50, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center space-x-2 bg-blue-50 px-4 py-2 rounded-full mb-6 border border-blue-100">
+                <SparklesIcon className="h-5 w-5 text-blue-600" />
+                <span className="text-blue-700 font-bold text-xs uppercase tracking-widest">Nour Tech 2.0</span>
+              </div>
+              
+              <h1 className="text-6xl lg:text-8xl font-black text-gray-900 leading-tight mb-8 dark:text-white">
+                {t('hero.title')} <br />
+                <span className="text-gradient">{t('hero.titleAccent')}</span>
+              </h1>
+              
+              <p className="text-xl text-gray-600 mb-10 max-w-lg leading-relaxed dark:text-gray-400">
+                {t('hero.subtitle')}
+              </p>
+              
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  to="/boutique"
+                  className="px-10 py-5 bg-blue-600 text-white rounded-2xl font-bold text-lg hover:bg-blue-700 hover:scale-105 transition-all shadow-xl shadow-blue-600/25 flex items-center space-x-3"
+                >
+                  <span>{t('hero.cta')}</span>
+                  <ArrowRightIcon className="h-5 w-5" />
+                </Link>
+                <Link
+                  to="/contact"
+                  className="px-10 py-5 bg-white text-gray-900 border-2 border-gray-100 rounded-2xl font-bold text-lg hover:border-blue-600 hover:text-blue-600 transition-all flex items-center space-x-3 dark:bg-[#1a1a1a] dark:text-white dark:border-white/10"
+                >
+                  <span>{t('hero.devis')}</span>
+                </Link>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="mt-16 flex items-center space-x-8">
+                <div className="flex -space-x-4">
+                  {[1,2,3,4].map(i => (
+                    <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden">
+                      <img src={`https://i.pravatar.cc/150?u=${i+10}`} alt="User" />
                     </div>
-                    <button className="bg-blue-600 text-white p-3 rounded-full hover:bg-blue-700 transition shadow-lg hover:shadow-xl">
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                      </svg>
-                    </button>
-                  </div>
+                  ))}
+                </div>
+                <div>
+                  <div className="font-black text-gray-900 text-lg dark:text-white">500+ Clients</div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">Satisfaits au Tchad</div>
                 </div>
               </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ scale: 0.8, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 1, ease: "easeOut" }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative z-10 animate-float">
+                <img 
+                  src="https://images.unsplash.com/photo-1726590200234-802521c7ba9f?q=80&w=1000&auto=format&fit=crop" 
+                  alt="iPhone 16 Pro"
+                  className="w-full h-auto drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)]"
+                />
+              </div>
+              {/* Floating Cards */}
+              <motion.div 
+                animate={{ y: [0, -10, 0] }}
+                transition={{ duration: 4, repeat: Infinity }}
+                className="absolute top-20 -left-10 glass p-6 rounded-3xl shadow-2xl z-20"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-green-100 rounded-2xl flex items-center justify-center text-green-600">
+                    <ShieldCheckIcon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 dark:text-white">Garantie 100%</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Produits Authentiques</div>
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div 
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 5, repeat: Infinity, delay: 1 }}
+                className="absolute bottom-20 -right-10 glass p-6 rounded-3xl shadow-2xl z-20"
+              >
+                <div className="flex items-center space-x-4">
+                  <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center text-blue-600">
+                    <TruckIcon className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <div className="font-bold text-gray-900 dark:text-white">Livraison 48h</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Partout à N'Djaména</div>
+                  </div>
+                </div>
+              </motion.div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <TechServicesSection />
+      <ProcessSection />
+
+      {/* ========================================= */}
+      {/* CATEGORIES GRID */}
+      {/* ========================================= */}
+      <section className="py-32 bg-gray-50 dark:bg-white/5">
+        <div className="container mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center max-w-3xl mx-auto mb-20"
+          >
+            <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 dark:text-white">Un service complet</h2>
+            <p className="text-xl text-gray-600 dark:text-gray-400">Tout ce dont vous avez besoin pour votre vie numérique au Tchad.</p>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {categories.map((cat, idx) => {
+              const Icon = cat.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1 }}
+                  whileHover={{ y: -10, transition: { duration: 0.2 } }}
+                  className="bg-white p-10 rounded-[2.5rem] shadow-xl shadow-gray-200/50 hover:shadow-2xl transition-all border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
+                >
+                  <div className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${cat.color} flex items-center justify-center mb-8 shadow-lg group-hover:scale-110 transition-transform`}>
+                    <Icon className="h-10 w-10 text-white" />
+                  </div>
+                  <h3 className="text-2xl font-black text-gray-900 mb-4 dark:text-white">{cat.title}</h3>
+                  <p className="text-gray-600 mb-8 leading-relaxed dark:text-gray-400">{cat.description}</p>
+                  <Link to={cat.link} className="flex items-center text-blue-600 font-bold group-hover:gap-2 transition-all">
+                    Découvrir <ArrowRightIcon className="h-5 w-5 ml-2" />
+                  </Link>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ========================================= */}
+      {/* POPULAR PRODUCTS */}
+      {/* ========================================= */}
+      <section className="py-32">
+        <div className="container mx-auto px-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row justify-between items-end mb-16"
+          >
+            <div className="max-w-xl">
+              <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-6 dark:text-white">Les favoris du moment</h2>
+              <p className="text-xl text-gray-600 dark:text-gray-400">Une sélection des meilleurs produits actuellement disponibles en boutique.</p>
+            </div>
+            <Link to="/boutique" className="mt-8 md:mt-0 px-8 py-4 bg-gray-100 text-gray-900 font-bold rounded-2xl hover:bg-gray-900 hover:text-white transition-all dark:bg-white/10 dark:text-white">
+              Voir tout le catalogue
+            </Link>
+          </motion.div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {popularProducts.map((p, idx) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                whileHover={{ scale: 1.02 }}
+                className="group relative bg-white rounded-[2rem] overflow-hidden border border-gray-100 shadow-lg hover:shadow-2xl transition-all dark:bg-[#1a1a1a] dark:border-white/10"
+              >
+                <Link to={`/product/${p.id}`} className="block aspect-[4/5] overflow-hidden bg-gray-50 dark:bg-white/5">
+                  <ProductImage src={p.image} alt={p.name} className={`w-full h-full ${productImageFit(p.image, 'p-8')} group-hover:scale-110 transition-transform duration-500`} />
+                </Link>
+                <div className="p-8">
+                  <span className="text-xs font-bold text-blue-600 uppercase tracking-widest mb-2 block">{p.brand}</span>
+                  <h3 className="text-xl font-black text-gray-900 mb-4 truncate dark:text-white">{p.name}</h3>
+                  <div className="flex justify-between items-center">
+                    <span className="text-2xl font-black text-gray-900 dark:text-white">{p.price} F</span>
+                    <Link 
+                      to={`/product/${p.id}`}
+                      className="w-12 h-12 bg-blue-600 text-white rounded-2xl flex items-center justify-center hover:bg-blue-700 shadow-lg shadow-blue-600/20"
+                    >
+                      <ArrowRightIcon className="h-6 w-6" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
             ))}
           </div>
-          
-          {/* Mobile view all button */}
-          <div className="md:hidden text-center mt-12">
-            <Link 
-              to="/services" 
-              className="inline-flex items-center bg-blue-600 text-white px-8 py-4 rounded-full font-semibold hover:bg-blue-700 transition shadow-lg"
-            >
-              Voir tous les produits
-              <ArrowRightIcon className="h-5 w-5 ml-2" />
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* IMPORT SPÉCIAL - DESIGN PREMIUM */}
-      <section className="relative py-32 overflow-hidden">
-        <div className="absolute inset-0">
-          <img 
-            src="https://images.unsplash.com/photo-1512453979798-5ea266f8880c?w=1920" 
-            alt="Dubai"
-            className="w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/95 to-purple-900/95"></div>
+      <ProjectsSection />
+
+      {/* ========================================= */}
+      {/* TESTIMONIALS - REDESIGNED */}
+      {/* ========================================= */}
+      <section className="py-32 bg-gray-900 text-white relative overflow-hidden">
+        {/* Abstract Background */}
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
+          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600 rounded-full blur-[150px]"></div>
+          <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600 rounded-full blur-[150px]"></div>
         </div>
-        
-        <div className="relative container mx-auto px-6">
-          <div className="max-w-4xl mx-auto text-center text-white">
-            <div className="flex justify-center space-x-6 mb-8">
-              <span className="text-5xl">🇦🇪</span>
-              <span className="text-5xl">✈️</span>
-              <span className="text-5xl">🇹🇩</span>
-            </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold mb-6">
-              Import spécial Dubaï
-            </h2>
-            
-            <p className="text-xl text-white/90 mb-12 max-w-2xl mx-auto">
-              Vous cherchez un modèle spécifique ? Nous le commandons pour vous depuis Dubaï, la Chine ou l'Europe.
+
+        <div className="container mx-auto px-6 relative z-10">
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-4xl lg:text-6xl font-black mb-8">Ils nous font confiance</h2>
+            <p className="text-xl text-gray-400 leading-relaxed">
+              La satisfaction de nos clients est notre plus belle réussite. Découvrez leurs expériences avec Nour Tech.
             </p>
-            
-            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-12">
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <div className="text-3xl font-bold text-white">7-10</div>
-                <div className="text-sm text-white/80">Jours délai</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <div className="text-3xl font-bold text-white">100%</div>
-                <div className="text-sm text-white/80">Garantie</div>
-              </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
-                <div className="text-3xl font-bold text-white">-20%</div>
-                <div className="text-sm text-white/80">Sur précommande</div>
-              </div>
-            </div>
-            
-            <Link
-              to="/contact"
-              className="inline-flex items-center bg-white text-blue-900 px-8 py-4 rounded-full font-semibold text-lg hover:shadow-2xl hover:scale-105 transition-all"
-            >
-              Commander un produit
-              <ArrowRightIcon className="h-5 w-5 ml-2" />
-            </Link>
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Mahamat Ali",
+                role: "Entrepreneur",
+                content: "J'ai commandé un iPhone 16 Pro via leur service d'import. Reçu en record de temps, authentique et au meilleur prix de N'Djamena !",
+                stars: 5,
+                image: "https://i.pravatar.cc/150?u=1"
+              },
+              {
+                name: "Fatima Moussa",
+                role: "Étudiante",
+                content: "Service de réparation incroyable. Ils ont sauvé mon MacBook alors que d'autres m'avaient dit que c'était irrécupérable.",
+                stars: 5,
+                image: "https://i.pravatar.cc/150?u=2"
+              },
+              {
+                name: "Oumar Youssouf",
+                role: "Professionnel",
+                content: "Nour Tech est devenu mon fournisseur officiel pour mon bureau. Fiable, rapide et très professionnel. Je recommande !",
+                stars: 5,
+                image: "https://i.pravatar.cc/150?u=3"
+              }
+            ].map((t, idx) => (
+              <motion.div 
+                key={idx}
+                whileHover={{ y: -10 }}
+                className="bg-white/5 backdrop-blur-xl p-10 rounded-[3rem] border border-white/10"
+              >
+                <div className="flex items-center space-x-4 mb-8">
+                  <img src={t.image} alt={t.name} className="w-16 h-16 rounded-2xl object-cover" />
+                  <div>
+                    <h4 className="font-bold text-xl">{t.name}</h4>
+                    <p className="text-blue-400 font-semibold text-sm uppercase tracking-widest">{t.role}</p>
+                  </div>
+                </div>
+                <div className="flex text-yellow-400 mb-6">
+                  {[...Array(t.stars)].map((_, i) => (
+                    <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                    </svg>
+                  ))}
+                </div>
+                <p className="text-gray-300 text-lg leading-relaxed italic">"{t.content}"</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* STATISTIQUES AVEC ANIMATION */}
-      <section className="py-24 bg-white">
+      {/* ========================================= */}
+      {/* PARTNERS SECTION */}
+      {/* ========================================= */}
+      <section className="py-20 bg-white border-y border-gray-100 dark:bg-[#0a0a0a] dark:border-white/5">
         <div className="container mx-auto px-6">
-          <div className="grid md:grid-cols-4 gap-8 max-w-5xl mx-auto">
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-blue-50 to-indigo-50">
-              <div className="text-5xl font-bold text-blue-600 mb-2">1000+</div>
-              <div className="text-gray-600">Produits vendus</div>
+          <p className="text-center text-xs font-black uppercase tracking-[0.3em] text-gray-400 mb-12">Ils nous font confiance</p>
+          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
+            {['Apple', 'Samsung', 'Dell', 'HP', 'Airtel', 'Moov'].map((brand) => (
+              <span key={brand} className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{brand}</span>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <BlogSection />
+
+      {/* ========================================= */}
+      {/* FAQ SECTION */}
+      {/* ========================================= */}
+      <section className="py-32 bg-gray-50 dark:bg-white/5">
+        <div className="container mx-auto px-6">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-20">
+              <h2 className="text-4xl lg:text-6xl font-black text-gray-900 dark:text-white mb-6">Questions fréquentes</h2>
+              <p className="text-xl text-gray-500 dark:text-gray-400">Tout ce que vous devez savoir sur nos services.</p>
             </div>
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-purple-50 to-pink-50">
-              <div className="text-5xl font-bold text-purple-600 mb-2">500+</div>
-              <div className="text-gray-600">Clients satisfaits</div>
-            </div>
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-green-50 to-emerald-50">
-              <div className="text-5xl font-bold text-green-600 mb-2">5+</div>
-              <div className="text-gray-600">Ans d'expérience</div>
-            </div>
-            <div className="text-center p-8 rounded-3xl bg-gradient-to-br from-orange-50 to-red-50">
-              <div className="text-5xl font-bold text-orange-600 mb-2">24/7</div>
-              <div className="text-gray-600">Support technique</div>
+
+            <div className="space-y-6">
+              {[
+                {
+                  q: "Les produits sont-ils authentiques ?",
+                  a: "Oui, tous nos produits sont 100% originaux. Nous nous approvisionnons directement auprès des distributeurs agréés à Dubaï, en Europe et aux USA."
+                },
+                {
+                  q: "Quelle est la durée de la garantie ?",
+                  a: "La plupart de nos produits neufs bénéficient d'une garantie constructeur de 12 mois. Pour le reconditionné, nous offrons une garantie Nour Tech de 6 mois."
+                },
+                {
+                  q: "Comment fonctionne l'importation spéciale ?",
+                  a: "Vous nous soumettez le modèle exact souhaité. Nous établissons un devis incluant transport et douane. Après acompte, la livraison s'effectue sous 7 à 12 jours ouvrés."
+                },
+                {
+                  q: "Livrez-vous en dehors de N'Djaména ?",
+                  a: "Nous livrons partout au Tchad via nos partenaires de transport locaux (Moundou, Abeché, Sarh, etc.). Des frais de port peuvent s'appliquer."
+                }
+              ].map((faq, idx) => (
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  className="bg-white dark:bg-[#1a1a1a] p-8 rounded-3xl border border-gray-100 dark:border-white/5 shadow-sm"
+                >
+                  <h3 className="text-xl font-black text-gray-900 dark:text-white mb-4 flex items-center">
+                    <span className="w-8 h-8 bg-blue-100 dark:bg-blue-600/20 text-blue-600 rounded-lg flex items-center justify-center mr-4 flex-shrink-0 text-sm">?</span>
+                    {faq.q}
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed pl-12">{faq.a}</p>
+                </motion.div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA FINAL - DESIGN CONVERSION */}
-      <section className="relative py-24 bg-gradient-to-r from-blue-600 to-blue-800 overflow-hidden">
-        <div className="absolute inset-0">
-          <svg className="absolute left-0 top-0 h-full w-full" viewBox="0 0 100 100" preserveAspectRatio="none">
-            <path d="M0 0 L100 100 L0 100 Z" fill="rgba(255,255,255,0.05)"></path>
-          </svg>
-        </div>
-        
-        <div className="relative container mx-auto px-6 text-center">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-              Prêt à acquérir votre nouvel appareil ?
-            </h2>
-            <p className="text-xl text-white/90 mb-12">
-              Contactez-nous pour un devis gratuit et personnalisé
-            </p>
-            <div className="flex flex-wrap justify-center gap-6">
-              <Link
-                to="/contact"
-                className="group bg-white text-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:shadow-2xl hover:scale-105 transition-all flex items-center space-x-2"
-              >
-                <span>Demander un devis</span>
-                <ArrowRightIcon className="h-5 w-5 group-hover:translate-x-1 transition" />
-              </Link>
-              <a
-                href="tel:+23566750015"
-                className="group bg-transparent border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 hover:scale-105 transition-all flex items-center space-x-2"
-              >
-                <PhoneIcon className="h-5 w-5" />
-                <span>+235 66 75 00 15</span>
-              </a>
+      {/* ========================================= */}
+      {/* CTA SECTION - ULTRA MODERN */}
+      {/* ========================================= */}
+      <section className="py-32 bg-white dark:bg-[#0a0a0a]">
+        <div className="container mx-auto px-6">
+          <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-[4rem] p-12 lg:p-24 text-center text-white relative overflow-hidden shadow-2xl">
+            {/* Background elements */}
+            <div className="absolute inset-0 opacity-10">
+              <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M0 0 L100 100 L0 100 Z" fill="white"></path>
+              </svg>
+            </div>
+            
+            <div className="relative z-10 max-w-4xl mx-auto">
+              <h2 className="text-5xl lg:text-7xl font-black mb-8 leading-tight">
+                Prêt à passer au <br /> niveau supérieur ?
+              </h2>
+              <p className="text-2xl text-blue-100 mb-12 font-light">
+                Contactez-nous pour un devis personnalisé ou visitez notre boutique à N'Djaména.
+              </p>
+              <div className="flex flex-wrap justify-center gap-6">
+                <Link
+                  to="/contact"
+                  className="px-12 py-6 bg-white text-blue-900 rounded-[2rem] font-bold text-xl hover:scale-105 transition-all shadow-2xl shadow-black/20"
+                >
+                  Démarrer un projet
+                </Link>
+                <a
+                  href="tel:+23566750015"
+                  className="px-12 py-6 bg-blue-500/20 backdrop-blur-xl border-2 border-white/20 text-white rounded-[2rem] font-bold text-xl hover:bg-white/10 transition-all flex items-center space-x-3"
+                >
+                  <PhoneIcon className="h-6 w-6" />
+                  <span>+235 66 75 00 15</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* WhatsApp Float Button */}
-      <a 
-        href="https://wa.me/23566750015?text=Bonjour%20Nour%20Tech%2C%20j'aimerais%20avoir%20des%20informations%20sur%20vos%20produits..."
-        className="fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-500 text-white p-4 rounded-full shadow-2xl hover:shadow-3xl hover:scale-110 transition-all z-50"
+      <motion.a 
+        whileHover={{ scale: 1.1 }}
+        whileTap={{ scale: 0.9 }}
+        href="https://wa.me/23566750015?text=Bonjour%20Nour%20Tech%2C%20j'aimerais%20avoir%20des%20informations..."
+        className="fixed bottom-6 right-6 bg-gradient-to-r from-green-400 to-green-600 text-white p-4 lg:px-5 lg:py-3 rounded-full shadow-[0_20px_50px_rgba(22,163,74,0.3)] z-50 flex items-center space-x-3"
         target="_blank"
         rel="noopener noreferrer"
       >
         <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
           <path d="M12.032 21.97c-2.628 0-5.18-.836-7.248-2.394l-4.784 1.562 1.562-4.784c-1.68-2.2-2.58-4.938-2.58-7.768 0-6.894 5.6-12.494 12.494-12.494 3.334 0 6.466 1.3 8.824 3.658 2.358 2.358 3.658 5.49 3.658 8.824 0 6.894-5.6 12.494-12.494 12.494zM12.032 2.248c-5.78 0-10.48 4.702-10.48 10.48 0 2.52.884 4.948 2.508 6.856l-1.086 3.324 3.438-1.086c1.848 1.372 4.138 2.146 6.62 2.146 5.78 0 10.48-4.702 10.48-10.48 0-2.8-1.092-5.432-3.074-7.414-1.982-1.982-4.614-3.074-7.414-3.074z"/>
         </svg>
-      </a>
+        <span className="hidden lg:inline font-black">Besoin d'aide ?</span>
+      </motion.a>
     </div>
   );
 };
