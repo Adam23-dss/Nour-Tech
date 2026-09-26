@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { Link, useParams } from 'react-router-dom';
 import { ArrowRightIcon, ArrowLeftIcon, CalendarIcon } from '@heroicons/react/24/outline';
 import { PageHero } from '../components/ui/PageHero';
+import { MediaSlot } from '../components/ui/MediaSlot';
 import { blogPosts, formatDate } from '../data/site';
 
 export const BlogCard = ({ post }) => (
@@ -10,7 +11,7 @@ export const BlogCard = ({ post }) => (
     className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all flex flex-col"
   >
     <Link to={`/blog/${post.slug}`} className="block h-56 overflow-hidden">
-      <img src={post.image} alt={post.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+      <MediaSlot src={post.image} alt={post.title} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
     </Link>
     <div className="p-8 flex flex-col flex-1">
       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs font-bold mb-4">
@@ -64,7 +65,7 @@ export const BlogPost = () => {
       <PageHero title={post.title} crumbs={[{ label: 'Blog', to: '/blog' }, { label: post.category }]} />
       <article className="py-24">
         <div className="container mx-auto px-6 max-w-3xl">
-          <img src={post.image} alt={post.title} className="w-full h-80 object-cover rounded-2xl mb-10 shadow-xl" />
+          {post.image && <img src={post.image} alt={post.title} className="w-full h-80 object-cover rounded-2xl mb-10 shadow-xl" />}
           <div className="flex items-center gap-3 text-sm font-bold mb-8">
             <span className="text-blue-600 uppercase tracking-widest">{post.category}</span>
             <span className="text-gray-400">{formatDate(post.date)}</span>

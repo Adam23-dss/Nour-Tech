@@ -11,13 +11,12 @@ import {
   ArrowRightIcon
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
+import { MediaSlot } from '../components/ui/MediaSlot';
 
 export const About = () => {
   const { t } = useTranslation();
   const stats = [
     { value: "2024", label: t('about.stats.launch', 'Lancement'), icon: RocketLaunchIcon },
-    { value: "500+", label: t('about.stats.clients', 'Clients'), icon: UserGroupIcon },
-    { value: "1500+", label: t('about.stats.sales', 'Ventes'), icon: BriefcaseIcon },
     { value: "24/7", label: t('about.stats.support', 'Support'), icon: ShieldCheckIcon }
   ];
 
@@ -26,25 +25,25 @@ export const About = () => {
       name: "Saleh Mahamat Nour",
       role: "Fondateur & CEO",
       bio: "Visionnaire et expert en logistique internationale.",
-      image: "https://i.pravatar.cc/300?u=saleh"
+      image: null // ex. "/images/equipe/prenom.jpg"
     },
     {
       name: "Issa Mahamat Haran",
       role: "Directeur Commercial",
       bio: "Expert en relations clients et stratégie de vente.",
-      image: "https://i.pravatar.cc/300?u=issa"
+      image: null // ex. "/images/equipe/prenom.jpg"
     },
     {
       name: "Adoum Mahamat Nour",
       role: "Lead Tech & Support",
       bio: "Spécialiste infrastructure et maintenance.",
-      image: "https://i.pravatar.cc/300?u=adoum"
+      image: null // ex. "/images/equipe/prenom.jpg"
     },
     {
       name: "Issakha Mahamat Nour",
       role: "Marketing Digital",
       bio: "Responsable de la présence en ligne et communauté.",
-      image: "https://i.pravatar.cc/300?u=issakha"
+      image: null // ex. "/images/equipe/prenom.jpg"
     }
   ];
 
@@ -52,9 +51,6 @@ export const About = () => {
     <div className="bg-white pt-20 dark:bg-brand-black">
       {/* HERO */}
       <section className="relative py-32 overflow-hidden bg-gray-900 text-white">
-        <div className="absolute inset-0 opacity-20">
-          <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=1920" className="w-full h-full object-cover" alt="Team" />
-        </div>
         <div className="container mx-auto px-6 relative z-10 text-center">
           <motion.h1 
             initial={{ y: 20, opacity: 0 }}
@@ -73,7 +69,7 @@ export const About = () => {
       {/* STATS */}
       <section className="py-20 -mt-16 relative z-20">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-2 gap-8 max-w-3xl mx-auto">
             {stats.map((s, idx) => (
               <motion.div 
                 key={idx}
@@ -102,7 +98,7 @@ export const About = () => {
               className="relative"
             >
               <div className="aspect-[4/5] rounded-2xl overflow-hidden shadow-2xl">
-                <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1000" className="w-full h-full object-cover" alt="Mission" />
+                <MediaSlot src={null} alt="Mission Nour Tech" />
               </div>
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
@@ -170,7 +166,7 @@ export const About = () => {
                 className="bg-white rounded-2xl overflow-hidden shadow-xl border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
               >
                 <div className="h-80 overflow-hidden bg-gray-100 dark:bg-white/10">
-                  <img src={m.image} alt={m.name} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <MediaSlot src={m.image} alt={m.name} label={m.name.split(' ').map((w) => w[0]).slice(0, 2).join('')} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-black text-gray-900 mb-2 dark:text-white">{m.name}</h3>

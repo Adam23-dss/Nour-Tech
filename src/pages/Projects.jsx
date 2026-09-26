@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { ArrowRightIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
+import { MediaSlot } from '../components/ui/MediaSlot';
 import { PageHero } from '../components/ui/PageHero';
 import { projects } from '../data/site';
 
@@ -15,7 +16,7 @@ export const ProjectCard = ({ project }) => (
     className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
   >
     <div className="relative h-60 overflow-hidden">
-      <img src={project.image} alt={project.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+      <MediaSlot src={project.image} alt={project.title} label={project.short} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <span className="absolute top-5 left-5 bg-blue-600 text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest">{project.category}</span>
     </div>
     <div className="p-8">
@@ -26,6 +27,11 @@ export const ProjectCard = ({ project }) => (
           <span key={tag} className="text-[10px] font-bold bg-gray-50 dark:bg-white/5 text-gray-500 dark:text-gray-400 px-3 py-1.5 rounded-lg border border-gray-100 dark:border-white/5">{tag}</span>
         ))}
       </div>
+      {project.link && (
+        <a href={project.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 mt-6 text-brand-red font-bold hover:underline">
+          <CodeBracketIcon className="h-5 w-5" /> Voir sur GitHub
+        </a>
+      )}
     </div>
   </motion.div>
 );
@@ -40,7 +46,7 @@ export const Projects = () => {
       <PageHero
         title="Nos"
         accent="Réalisations"
-        subtitle="Quelques projets que nous avons menés pour nos clients."
+        subtitle="Quelques projets récents que nous avons conçus et développés."
         crumbs={[{ label: 'Projets' }]}
       />
 

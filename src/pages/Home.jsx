@@ -119,21 +119,6 @@ export const Home = () => {
                   <span>{t('hero.devis')}</span>
                 </Link>
               </div>
-
-              {/* Trust Indicators */}
-              <div className="mt-16 flex items-center space-x-8">
-                <div className="flex -space-x-4">
-                  {[1,2,3,4].map(i => (
-                    <div key={i} className="w-12 h-12 rounded-full border-4 border-white bg-gray-200 overflow-hidden">
-                      <img src={`https://i.pravatar.cc/150?u=${i+10}`} alt="User" />
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <div className="font-black text-gray-900 text-lg dark:text-white">500+ Clients</div>
-                  <div className="text-sm text-gray-500 dark:text-gray-400">Satisfaits au Tchad</div>
-                </div>
-              </div>
             </motion.div>
 
             <motion.div 
@@ -176,7 +161,7 @@ export const Home = () => {
                   </div>
                   <div>
                     <div className="font-bold text-gray-900 dark:text-white">Livraison 48h</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">Partout à N'Djaména</div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">Partout au Tchad</div>
                   </div>
                 </div>
               </motion.div>
@@ -285,88 +270,6 @@ export const Home = () => {
       </section>
 
       <ProjectsSection />
-
-      {/* ========================================= */}
-      {/* TESTIMONIALS - REDESIGNED */}
-      {/* ========================================= */}
-      <section className="py-32 bg-gray-900 text-white relative overflow-hidden">
-        {/* Abstract Background */}
-        <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
-          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600 rounded-full blur-[150px]"></div>
-          <div className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] bg-purple-600 rounded-full blur-[150px]"></div>
-        </div>
-
-        <div className="container mx-auto px-6 relative z-10">
-          <div className="text-center max-w-3xl mx-auto mb-20">
-            <h2 className="text-4xl lg:text-6xl font-black mb-8">Ils nous font confiance</h2>
-            <p className="text-xl text-gray-400 leading-relaxed">
-              La satisfaction de nos clients est notre plus belle réussite. Découvrez leurs expériences avec Nour Tech.
-            </p>
-          </div>
-
-          <div className="grid lg:grid-cols-3 gap-8">
-            {[
-              {
-                name: "Mahamat Ali",
-                role: "Entrepreneur",
-                content: "J'ai commandé un iPhone 16 Pro via leur service d'import. Reçu en record de temps, authentique et au meilleur prix de N'Djamena !",
-                stars: 5,
-                image: "https://i.pravatar.cc/150?u=1"
-              },
-              {
-                name: "Fatima Moussa",
-                role: "Étudiante",
-                content: "Service de réparation incroyable. Ils ont sauvé mon MacBook alors que d'autres m'avaient dit que c'était irrécupérable.",
-                stars: 5,
-                image: "https://i.pravatar.cc/150?u=2"
-              },
-              {
-                name: "Oumar Youssouf",
-                role: "Professionnel",
-                content: "Nour Tech est devenu mon fournisseur officiel pour mon bureau. Fiable, rapide et très professionnel. Je recommande !",
-                stars: 5,
-                image: "https://i.pravatar.cc/150?u=3"
-              }
-            ].map((t, idx) => (
-              <motion.div 
-                key={idx}
-                whileHover={{ y: -10 }}
-                className="bg-white/5 backdrop-blur-xl p-10 rounded-2xl border border-white/10"
-              >
-                <div className="flex items-center space-x-4 mb-8">
-                  <img src={t.image} alt={t.name} className="w-16 h-16 rounded-2xl object-cover" />
-                  <div>
-                    <h4 className="font-bold text-xl">{t.name}</h4>
-                    <p className="text-blue-400 font-semibold text-sm uppercase tracking-widest">{t.role}</p>
-                  </div>
-                </div>
-                <div className="flex text-yellow-400 mb-6">
-                  {[...Array(t.stars)].map((_, i) => (
-                    <svg key={i} className="h-5 w-5 fill-current" viewBox="0 0 20 20">
-                      <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-gray-300 text-lg leading-relaxed italic">"{t.content}"</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ========================================= */}
-      {/* PARTNERS SECTION */}
-      {/* ========================================= */}
-      <section className="py-20 bg-white border-y border-gray-100 dark:bg-brand-black dark:border-white/5">
-        <div className="container mx-auto px-6">
-          <p className="text-center text-xs font-black uppercase tracking-[0.3em] text-gray-400 mb-12">Ils nous font confiance</p>
-          <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-50 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-700">
-            {['Apple', 'Samsung', 'Dell', 'HP', 'Airtel', 'Moov'].map((brand) => (
-              <span key={brand} className="text-3xl font-black text-gray-900 dark:text-white tracking-tighter">{brand}</span>
-            ))}
-          </div>
-        </div>
-      </section>
 
       <BlogSection />
 

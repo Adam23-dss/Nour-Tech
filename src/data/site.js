@@ -89,55 +89,58 @@ export const processSteps = [
   { title: 'Contrôle qualité & support', description: "Formation, suivi et assistance continue après la livraison.", icon: LifebuoyIcon },
 ];
 
-// Exemples de réalisations : à remplacer par vos vrais projets clients
+// Vos projets (github.com/Adam23-dss).
+// Pour ajouter une image : placez-la dans public/images/projets/ puis mettez par ex. image: '/images/projets/agrimarket.jpg'
 export const projects = [
   {
-    slug: 'nour-tech-shop',
-    title: 'Nour Tech Boutique',
-    category: 'E-commerce',
-    description: "Boutique en ligne avec panier, comparateur de produits et espace d'administration.",
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800',
-    tags: ['React', 'Node.js', 'SQLite'],
-  },
-  {
-    slug: 'ecole-gestion',
-    title: 'Gestion scolaire',
-    category: 'ERP',
-    description: "Logiciel de gestion des élèves, notes, paiements de scolarité et bulletins.",
-    image: 'https://images.unsplash.com/photo-1509062522246-3755977927d7?w=800',
-    tags: ['ERP', 'Web', 'Rapports PDF'],
-  },
-  {
-    slug: 'livraison-app',
-    title: 'Application de livraison',
+    slug: 'agrimarket-tchad',
+    title: 'AgriMarket Tchad',
+    short: 'AgriMarket',
     category: 'Mobile',
-    description: "Application mobile de commande et de suivi de livraison à N'Djaména.",
-    image: 'https://images.unsplash.com/photo-1526367790999-0150786686a2?w=800',
-    tags: ['Android', 'iOS', 'Géolocalisation'],
+    description: "Application de vente directe entre producteurs et consommateurs au Tchad.",
+    image: null,
+    tags: ['Flutter', 'Node.js', 'PostgreSQL', 'Socket.io'],
+    link: 'https://github.com/Adam23-dss/agrimarket-tchad',
   },
   {
-    slug: 'reseau-bureau',
-    title: 'Réseau d\'entreprise',
-    category: 'Réseaux',
-    description: "Câblage, Wi-Fi et vidéosurveillance pour des bureaux sur deux étages.",
-    image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800',
-    tags: ['Wi-Fi', 'Caméras IP', 'Sécurité'],
+    slug: 'emargements-examens',
+    title: 'Gestion des émargements aux examens',
+    short: 'Émargement',
+    category: 'Web & Mobile',
+    description: "Application de suivi des présences aux examens en temps réel, avec exports Excel et PDF.",
+    image: null,
+    tags: ['Flutter', 'Express', 'PostgreSQL', 'Temps réel'],
+    link: 'https://github.com/Adam23-dss/Application-de-gestion-des-margements-aux-examens',
   },
   {
-    slug: 'identite-restaurant',
-    title: 'Identité visuelle restaurant',
-    category: 'Marketing',
-    description: "Logo, menus, charte graphique et gestion des réseaux sociaux.",
-    image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800',
-    tags: ['Branding', 'Instagram', 'Print'],
+    slug: 'amam',
+    title: 'AMAM – Hack2Hire 2025',
+    short: 'AMAM',
+    category: 'Data & IA',
+    description: "Plateforme d'aide à la décision agricole : prévisions météo locales, Machine Learning et alertes SMS/WhatsApp.",
+    image: null,
+    tags: ['Machine Learning', 'Python', 'Météo', 'Agriculture'],
+    link: 'https://github.com/Adam23-dss/AMAM',
   },
   {
-    slug: 'site-ong',
-    title: 'Site web ONG',
+    slug: 'nour-tech',
+    title: 'Nour Tech',
+    short: 'Nour Tech',
+    category: 'E-commerce',
+    description: "Site vitrine et boutique en ligne avec panier, comparateur de produits et espace d'administration.",
+    image: null,
+    tags: ['React', 'Node.js', 'SQLite', 'Tailwind'],
+    link: 'https://github.com/Adam23-dss/Nour-Tech',
+  },
+  {
+    slug: 'senmoney',
+    title: 'SenMoney',
+    short: 'SenMoney',
     category: 'Web',
-    description: "Site vitrine multilingue (FR / AR / EN) avec actualités et formulaire de don.",
-    image: 'https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=800',
-    tags: ['Multilingue', 'SEO', 'CMS'],
+    description: "Simulation d'un service de transfert d'argent.",
+    image: null,
+    tags: ['JavaScript', 'jQuery'],
+    link: 'https://github.com/Adam23-dss/SenMoney-Simulation-d-un-service-de-transfert-d-argent-JavaScript-jQuery-',
   },
 ];
 
@@ -149,7 +152,7 @@ export const blogPosts = [
     excerpt: "Site web, paiement mobile, réseaux sociaux : les étapes clés pour vendre en ligne.",
     category: 'Transformation digitale',
     date: '2026-09-15',
-    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800',
+    image: null, // à remplacer par votre image
     content: [
       "Le commerce en ligne progresse rapidement au Tchad grâce au mobile money et aux réseaux sociaux. Pourtant, beaucoup de commerces n'ont pas encore de présence en ligne structurée.",
       "Première étape : être visible. Une page Facebook et un compte WhatsApp Business bien tenus suffisent pour commencer. Ajoutez des photos claires, vos prix et vos horaires.",
@@ -164,7 +167,7 @@ export const blogPosts = [
     excerpt: "Batterie, stockage, appareil photo : les critères qui comptent vraiment.",
     category: 'Conseils',
     date: '2026-09-02',
-    image: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=800',
+    image: null, // à remplacer par votre image
     content: [
       "Face au nombre de modèles disponibles, il n'est pas facile de choisir. Commencez par définir votre budget et votre usage principal.",
       "La batterie est souvent le critère le plus important : visez au moins 4 500 mAh pour tenir une journée complète.",
@@ -178,7 +181,7 @@ export const blogPosts = [
     excerpt: "Mots de passe, sauvegardes, mises à jour : les bases pour éviter les mauvaises surprises.",
     category: 'Sécurité',
     date: '2026-08-20',
-    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=800',
+    image: null, // à remplacer par votre image
     content: [
       "1. Changez les mots de passe par défaut de vos routeurs et caméras.",
       "2. Séparez le Wi-Fi invités du réseau de l'entreprise.",
