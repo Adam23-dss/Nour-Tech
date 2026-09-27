@@ -1,16 +1,18 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
-const fs = require('fs');
 
-if (process.env.DATA_DIR) fs.mkdirSync(process.env.DATA_DIR, { recursive: true });
-
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: process.env.DATA_DIR
-    ? path.join(process.env.DATA_DIR, 'database.sqlite')
-    : path.join(__dirname, '../database.sqlite'),
-  logging: false
-});
+// PostgreSQL (ex. Neon) si DATABASE_URL est défini, sinon SQLite local
+const sequelize = process.env.DATABASE_URL
+  ? new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+      logging: false
+    })
+  : new Sequelize({
+      dialect: 'sqlite',
+      storage: path.join(__dirname, '../database.sqlite'),
+      logging: false
+    });
 
 const User = sequelize.define('User', {
   username: {
@@ -114,4 +116,12 @@ const TeamMember = sequelize.define('TeamMember', {
   position: { type: DataTypes.INTEGER, defaultValue: 0 }
 });
 
-module.exports = { sequelize, User, Product, Project, Post, TeamMember };
+// Images envoyées depuis l'admin, stockées en base pour survivre aux redémarrages
+const Media = sequelize.define('Media', {
+  folder: { type: DataTypes.STRING },
+  filename: { type: DataTypes.STRING, allowNull: false },
+  mimetype: { type: DataTypes.STRING, allowNull: false },
+  data: { type: DataTypes.BLOB('long'), allowNull: false }
+});
+
+module.exports = { sequelize, User, Product, Project, Post, TeamMember, Media };

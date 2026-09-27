@@ -11,6 +11,7 @@ export const ProductImage = ({ src, alt, className = "w-full h-full object-conta
   const getFullSrc = (s) => {
     if (!s) return FALLBACK_IMAGE;
     if (s.startsWith('http')) return s;
+    if (s.startsWith('/media/')) return `${API_URL}${s}`;
     if (s.startsWith('/images/produits')) {
       return `${API_URL}${s.replace('/images/produits', '/uploads')}`;
     }

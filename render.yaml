@@ -1,25 +1,22 @@
-# Blueprint Render pour l'API Nour Tech (backend/)
-# Le disque persistant garde la base SQLite et les images envoyées depuis l'admin.
-# Il nécessite une offre payante (Starter) ; sans lui, tout est effacé à chaque redéploiement.
+# Blueprint Render pour l'API Nour Tech (backend/) — offre gratuite.
+# Les données et les images envoyées depuis l'admin sont stockées dans PostgreSQL (Neon, gratuit) :
+# renseigner DATABASE_URL avec la chaîne de connexion Neon.
+# Le service gratuit s'endort après 15 min sans visite (premier chargement ensuite ~1 min).
 services:
   - type: web
     name: nourtech-api
     runtime: node
-    plan: starter
+    plan: free
     buildCommand: cd backend && npm install
     startCommand: cd backend && npm start
     healthCheckPath: /api/test
-    disk:
-      name: nourtech-data
-      mountPath: /var/data
-      sizeGB: 1
     envVars:
       - key: NODE_VERSION
         value: "20"
       - key: NODE_ENV
         value: production
-      - key: DATA_DIR
-        value: /var/data
+      - key: DATABASE_URL
+        sync: false
       - key: JWT_SECRET
         generateValue: true
       - key: ADMIN_USERNAME

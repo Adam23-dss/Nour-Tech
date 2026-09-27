@@ -10,6 +10,7 @@ const CATEGORIES = { phones: 'Téléphones', computers: 'Ordinateurs', tablets: 
 const productImageUrl = (image) => {
   if (!image) return null;
   if (image.startsWith('http')) return image;
+  if (image.startsWith('/media/')) return `${API_URL}${image}`;
   return `${API_URL}${image.replace('/images/produits', '/uploads')}`;
 };
 
