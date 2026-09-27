@@ -30,3 +30,7 @@ node_modules/
 .env.production
 .DS_Store
 npm-debug.log
+# Photos personnelles et images envoyées depuis l'admin (stockées en base)
+public/images/equipe/
+public/images/projets/
+public/images/blog/
