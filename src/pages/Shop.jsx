@@ -28,6 +28,7 @@ import {
   ScaleIcon
 } from "@heroicons/react/24/outline";
 import { HeartIcon as HeartSolid } from "@heroicons/react/24/solid";
+import { API_URL } from "../utils/api";
 
 export const Shop = () => {
   const [products, setProducts] = useState([]);
@@ -42,7 +43,7 @@ export const Shop = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${API_URL}/api/products`);
         setProducts(response.data);
       } catch (error) {
         console.error('Error fetching products', error);
@@ -51,10 +52,6 @@ export const Shop = () => {
     fetchProducts();
   }, []);
 
-  const getImageUrl = (imagePath) => {
-    if (imagePath?.startsWith('http')) return imagePath;
-    return `http://localhost:5000${imagePath?.replace('/images/produits', '/uploads')}`;
-  };
 
   const categories = useMemo(() => [
     { id: "all", name: t('categories.all', 'Tous'), icon: SparklesIcon },

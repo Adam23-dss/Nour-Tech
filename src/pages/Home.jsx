@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ProductImage, productImageFit } from '../components/ui/ProductImage';
 import { TechServicesSection, ProcessSection, ProjectsSection, BlogSection } from '../components/sections/HomeTech';
+import { API_URL } from '../utils/api';
 
 export const Home = () => {
   const { t } = useTranslation();
@@ -14,7 +15,7 @@ export const Home = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${API_URL}/api/products`);
         setPopularProducts(response.data.slice(0, 4));
       } catch (error) {
         console.error('Error fetching products', error);
@@ -23,10 +24,6 @@ export const Home = () => {
     fetchProducts();
   }, []);
 
-  const getImageUrl = (imagePath) => {
-    if (imagePath?.startsWith('http')) return imagePath;
-    return `http://localhost:5000${imagePath?.replace('/images/produits', '/uploads')}`;
-  };
 
   const categories = [
     {

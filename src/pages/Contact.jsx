@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
+import { API_URL } from '../utils/api';
 import { 
   PhoneIcon, 
   EnvelopeIcon, 
@@ -33,7 +34,7 @@ export const Contact = () => {
     e.preventDefault();
     setStatus('loading');
     try {
-      const response = await fetch('http://localhost:5000/api/contact', {
+      const response = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

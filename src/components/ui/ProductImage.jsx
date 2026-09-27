@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_URL } from '../../utils/api';
 
 export const productImageFit = (src, padding = 'p-10') =>
   /.(png|svg)$/i.test(src || '') ? `object-contain ${padding}` : 'object-cover';
@@ -11,7 +12,7 @@ export const ProductImage = ({ src, alt, className = "w-full h-full object-conta
     if (!s) return FALLBACK_IMAGE;
     if (s.startsWith('http')) return s;
     if (s.startsWith('/images/produits')) {
-      return `http://localhost:5000${s.replace('/images/produits', '/uploads')}`;
+      return `${API_URL}${s.replace('/images/produits', '/uploads')}`;
     }
     return s;
   };

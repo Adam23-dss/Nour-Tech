@@ -4,6 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useCart } from "../context/useCart";
+import { API_URL } from "../utils/api";
 import { 
   ArrowLeftIcon, 
   ShoppingCartIcon, 
@@ -24,7 +25,7 @@ export const ProductDetail = () => {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/products');
+        const response = await axios.get(`${API_URL}/api/products`);
         const found = response.data.find(p => p.id === parseInt(id));
         setProduct(found);
       } catch (error) {
@@ -36,10 +37,6 @@ export const ProductDetail = () => {
     fetchProduct();
   }, [id]);
 
-  const getImageUrl = (imagePath) => {
-    if (imagePath?.startsWith('http')) return imagePath;
-    return `http://localhost:5000${imagePath?.replace('/images/produits', '/uploads')}`;
-  };
 
   if (loading) return <div className="min-h-screen flex items-center justify-center">Chargement...</div>;
 
