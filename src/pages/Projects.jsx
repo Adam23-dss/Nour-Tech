@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRightIcon, CodeBracketIcon } from '@heroicons/react/24/outline';
 import { MediaSlot } from '../components/ui/MediaSlot';
 import { PageHero } from '../components/ui/PageHero';
-import { projects } from '../data/site';
+import { useContent, mediaUrl } from '../utils/api';
 
 export const ProjectCard = ({ project }) => (
   <motion.div
@@ -16,7 +16,7 @@ export const ProjectCard = ({ project }) => (
     className="group bg-white dark:bg-[#1a1a1a] rounded-2xl overflow-hidden border border-gray-100 dark:border-white/5 shadow-lg hover:shadow-2xl transition-all"
   >
     <div className="relative h-60 overflow-hidden">
-      <MediaSlot src={project.image} alt={project.title} label={project.short} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+      <MediaSlot src={mediaUrl(project.image)} alt={project.title} label={project.short} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
       <span className="absolute top-5 left-5 bg-blue-600 text-white text-[10px] font-black px-4 py-2 rounded-full uppercase tracking-widest">{project.category}</span>
     </div>
     <div className="p-8">
@@ -37,7 +37,8 @@ export const ProjectCard = ({ project }) => (
 );
 
 export const Projects = () => {
-  const categories = ['Tous', ...new Set(projects.map((p) => p.category))];
+  const { items: projects } = useContent('projects');
+  const categories = ['Tous', ...new Set(projects.map((p) => p.category).filter(Boolean))];
   const [active, setActive] = useState('Tous');
   const visible = active === 'Tous' ? projects : projects.filter((p) => p.category === active);
 
@@ -66,7 +67,7 @@ export const Projects = () => {
 
           <motion.div layout className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             <AnimatePresence mode="popLayout">
-              {visible.map((p) => <ProjectCard key={p.slug} project={p} />)}
+              {visible.map((p) => <ProjectCard key={p.id} project={p} />)}
             </AnimatePresence>
           </motion.div>
 

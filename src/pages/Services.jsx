@@ -80,7 +80,7 @@ export const Services = () => (
       <div className="container mx-auto px-6">
         <div className="bg-gradient-to-br from-blue-600 to-indigo-900 rounded-2xl p-12 lg:p-20 text-center text-white">
           <h2 className="text-4xl lg:text-5xl font-black mb-6">Un projet en tête ?</h2>
-          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">Parlez-nous de votre besoin : nous vous répondons sous 24h avec une proposition adaptée.</p>
+          <p className="text-xl text-blue-100 mb-10 max-w-2xl mx-auto">Parlez-nous de votre besoin : nous vous répondons sous 48h avec une proposition adaptée.</p>
           <Link to="/contact" className="inline-flex items-center px-10 py-5 bg-white text-blue-900 rounded-2xl font-black text-lg hover:scale-105 transition-all">
             Contactez-nous <ArrowRightIcon className="h-6 w-6 ml-3" />
           </Link>

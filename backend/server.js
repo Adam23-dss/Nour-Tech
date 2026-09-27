@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
-const { sequelize, User, Product } = require('./models');
+const { sequelize, User, Product, Project, Post, TeamMember } = require('./models');
 
 dotenv.config();
 const app = express();
@@ -16,24 +16,43 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '../public/images/produits')));
+// Images gérées depuis l'admin (projets, blog, équipe)
+app.use('/media', express.static(path.join(__dirname, '../public/images')));
 
 // JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || 'nourtech_secret_key_2024';
 
-// Multer Configuration
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    const dir = path.join(__dirname, '../public/images/produits');
-    if (!fs.existsSync(dir)) {
-      fs.mkdirSync(dir, { recursive: true });
+// Multer Configuration : images uniquement, 5 Mo max
+const makeUpload = (folder) => multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const dir = path.join(__dirname, '../public/images', folder);
+      if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+      }
+      cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+      const ext = path.extname(file.originalname).toLowerCase();
+      const base = path.basename(file.originalname, ext).toLowerCase().replace(/[^a-z0-9]+/g, '-').slice(0, 40);
+      cb(null, `${Date.now()}-${base}${ext}`);
     }
-    cb(null, dir);
-  },
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname);
+  }),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const ok = ['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif'].includes(file.mimetype);
+    cb(ok ? null : new Error('Seules les images (JPG, PNG, WebP, GIF, AVIF) sont acceptées'), ok);
   }
 });
-const upload = multer({ storage });
+const upload = makeUpload('produits');
+
+// Transforme une erreur d'envoi de fichier en réponse 400 lisible
+const withUpload = (uploader) => (req, res, next) =>
+  uploader.single('image')(req, res, (err) => {
+    if (!err) return next();
+    const message = err.code === 'LIMIT_FILE_SIZE' ? 'Image trop lourde (5 Mo maximum)' : err.message;
+    res.status(400).json({ error: message });
+  });
 
 // Auth Middleware
 const authMiddleware = (req, res, next) => {
@@ -76,7 +95,7 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
-app.post('/api/products', authMiddleware, upload.single('image'), async (req, res) => {
+app.post('/api/products', authMiddleware, withUpload(upload), async (req, res) => {
   try {
     const productData = req.body;
     if (req.file) {
@@ -89,7 +108,7 @@ app.post('/api/products', authMiddleware, upload.single('image'), async (req, re
   }
 });
 
-app.put('/api/products/:id', authMiddleware, upload.single('image'), async (req, res) => {
+app.put('/api/products/:id', authMiddleware, withUpload(upload), async (req, res) => {
   try {
     const { id } = req.params;
     const productData = req.body;
@@ -113,6 +132,91 @@ app.delete('/api/products/:id', authMiddleware, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+
+// --- CONTENU GÉRÉ DEPUIS L'ADMIN : projets, blog, équipe ---
+const slugify = (text = '') =>
+  text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+
+// Supprime du disque une image envoyée depuis l'admin (chemins /media/... uniquement)
+const mediaRoot = path.resolve(__dirname, '../public/images');
+const removeMedia = (imagePath) => {
+  if (!imagePath?.startsWith('/media/')) return;
+  const file = path.resolve(mediaRoot, imagePath.slice('/media/'.length));
+  if (file.startsWith(mediaRoot + path.sep)) fs.rm(file, { force: true }, () => {});
+};
+
+const registerContent = (route, Model, folder, order, prepare = (data) => data) => {
+  const uploader = makeUpload(folder);
+  const editable = Object.keys(Model.rawAttributes).filter((k) => !['id', 'createdAt', 'updatedAt'].includes(k));
+  const pick = (req) => {
+    const data = {};
+    for (const key of editable) {
+      if (req.body[key] !== undefined) data[key] = req.body[key] === '' ? null : req.body[key];
+    }
+    if (req.file) data.image = `/media/${folder}/${req.file.filename}`;
+    else if (req.body.removeImage === 'true') data.image = null;
+    return prepare(data);
+  };
+
+  app.get(`/api/${route}`, async (req, res) => {
+    try {
+      res.json(await Model.findAll({ order }));
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
+  app.post(`/api/${route}`, authMiddleware, withUpload(uploader), async (req, res) => {
+    try {
+      res.status(201).json(await Model.create(pick(req)));
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+  app.put(`/api/${route}/:id`, authMiddleware, withUpload(uploader), async (req, res) => {
+    try {
+      const item = await Model.findByPk(req.params.id);
+      if (!item) return res.status(404).json({ error: 'Introuvable' });
+      const previousImage = item.image;
+      const data = pick(req);
+      await item.update(data);
+      if ('image' in data && data.image !== previousImage) removeMedia(previousImage);
+      res.json(item);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
+
+  app.delete(`/api/${route}/:id`, authMiddleware, async (req, res) => {
+    try {
+      const item = await Model.findByPk(req.params.id);
+      if (item) {
+        await item.destroy();
+        removeMedia(item.image);
+      }
+      res.json({ message: 'Supprimé avec succès' });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+};
+
+registerContent('projects', Project, 'projets', [['position', 'ASC'], ['createdAt', 'DESC']]);
+registerContent('posts', Post, 'blog', [['date', 'DESC'], ['createdAt', 'DESC']], (data) => {
+  if (data.title && !data.slug) data.slug = slugify(data.title);
+  return data;
+});
+registerContent('team', TeamMember, 'equipe', [['position', 'ASC'], ['createdAt', 'ASC']]);
+
+// Crée les tables manquantes et remplit le contenu par défaut au premier démarrage
+const initContent = async () => {
+  await sequelize.sync();
+  const defaults = require('./scripts/content-defaults.json');
+  if (await Project.count() === 0) await Project.bulkCreate(defaults.projects);
+  if (await Post.count() === 0) await Post.bulkCreate(defaults.posts);
+  if (await TeamMember.count() === 0) await TeamMember.bulkCreate(defaults.team);
+};
 
 // --- EXISTING CONTACT ROUTE ---
 const transporter = nodemailer.createTransport({
@@ -152,6 +256,7 @@ app.listen(PORT, async () => {
   console.log(`\n🚀 Backend Nour Tech démarré sur http://localhost:${PORT}`);
   try {
     await sequelize.authenticate();
+    await initContent();
     console.log('✅ Connexion à la base de données SQLite réussie');
   } catch (error) {
     console.error('❌ Impossible de se connecter à la base de données:', error);

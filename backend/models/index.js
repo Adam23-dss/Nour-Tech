@@ -19,6 +19,29 @@ const User = sequelize.define('User', {
   }
 });
 
+// Liste stockée en JSON. Accepte un tableau, une chaîne JSON, ou du texte
+// (une valeur par ligne, ou séparée par des virgules si `separator` vaut ',').
+const jsonList = (field, separator = '\n') => ({
+  type: DataTypes.TEXT,
+  get() {
+    const raw = this.getDataValue(field);
+    return raw ? JSON.parse(raw) : [];
+  },
+  set(value) {
+    let list = value;
+    if (typeof value === 'string') {
+      try {
+        list = JSON.parse(value);
+      } catch {
+        list = null;
+      }
+      if (!Array.isArray(list)) list = value.split(separator === ',' ? ',' : /\n\s*\n|\n/);
+    }
+    list = (Array.isArray(list) ? list : []).map((v) => String(v).trim()).filter(Boolean);
+    this.setDataValue(field, JSON.stringify(list));
+  }
+});
+
 const Product = sequelize.define('Product', {
   name: {
     type: DataTypes.STRING,
@@ -54,16 +77,36 @@ const Product = sequelize.define('Product', {
   warranty: {
     type: DataTypes.STRING
   },
-  features: {
-    type: DataTypes.TEXT, // Will store JSON string
-    get() {
-      const rawValue = this.getDataValue('features');
-      return rawValue ? JSON.parse(rawValue) : [];
-    },
-    set(value) {
-      this.setDataValue('features', JSON.stringify(value));
-    }
-  }
+  features: jsonList('features')
 });
 
-module.exports = { sequelize, User, Product };
+const Project = sequelize.define('Project', {
+  title: { type: DataTypes.STRING, allowNull: false },
+  short: { type: DataTypes.STRING },
+  category: { type: DataTypes.STRING },
+  description: { type: DataTypes.TEXT },
+  image: { type: DataTypes.STRING },
+  tags: jsonList('tags', ','),
+  link: { type: DataTypes.STRING },
+  position: { type: DataTypes.INTEGER, defaultValue: 0 }
+});
+
+const Post = sequelize.define('Post', {
+  slug: { type: DataTypes.STRING, allowNull: false, unique: true },
+  title: { type: DataTypes.STRING, allowNull: false },
+  excerpt: { type: DataTypes.TEXT },
+  category: { type: DataTypes.STRING },
+  date: { type: DataTypes.DATEONLY },
+  image: { type: DataTypes.STRING },
+  content: jsonList('content')
+});
+
+const TeamMember = sequelize.define('TeamMember', {
+  name: { type: DataTypes.STRING, allowNull: false },
+  role: { type: DataTypes.STRING },
+  bio: { type: DataTypes.TEXT },
+  image: { type: DataTypes.STRING },
+  position: { type: DataTypes.INTEGER, defaultValue: 0 }
+});
+
+module.exports = { sequelize, User, Product, Project, Post, TeamMember };

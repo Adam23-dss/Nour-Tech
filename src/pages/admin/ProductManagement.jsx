@@ -1,19 +1,30 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { Plus, Pencil, Trash2, Search, X } from 'lucide-react';
+import { Plus, Pencil, Trash2, Search, X, ImagePlus } from 'lucide-react';
+import { API_URL } from '../../utils/api';
+
+const CATEGORIES = { phones: 'Téléphones', computers: 'Ordinateurs', tablets: 'Tablettes', accessories: 'Accessoires' };
+
+// Chemin d'image produit -> URL affichable
+const productImageUrl = (image) => {
+  if (!image) return null;
+  if (image.startsWith('http')) return image;
+  return `${API_URL}${image.replace('/images/produits', '/uploads')}`;
+};
 
 export const ProductManagement = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const { token } = useAuth();
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/products');
+      const response = await axios.get(`${API_URL}/api/products`);
       setProducts(response.data);
     } catch (error) {
       console.error('Error fetching products', error);
@@ -29,11 +40,11 @@ export const ProductManagement = () => {
   const handleDelete = async (id) => {
     if (window.confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) {
       try {
-        await axios.delete(`http://localhost:5000/api/products/${id}`, {
+        await axios.delete(`${API_URL}/api/products/${id}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
         setProducts(products.filter(p => p.id !== id));
-      } catch (error) {
+      } catch {
         alert('Erreur lors de la suppression');
       }
     }
@@ -44,38 +55,48 @@ export const ProductManagement = () => {
     setIsModalOpen(true);
   };
 
-  const filteredProducts = products.filter(p => 
-    p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.brand?.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = products.filter(p =>
+    (categoryFilter === 'all' || p.category === categoryFilter) &&
+    (p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      p.brand?.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">Gestion des produits</h2>
-        <button 
-          onClick={() => handleOpenModal()}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center hover:bg-blue-700 transition"
-        >
-          <Plus className="h-5 w-5 mr-2" />
+        <h2 className="text-2xl font-bold">Gestion des produits</h2>
+        <button onClick={() => handleOpenModal()} className="btn-xw !px-5 !py-2.5">
+          <Plus className="h-5 w-5" />
           Nouveau produit
         </button>
       </div>
 
-      {/* Search Bar */}
-      <div className="mb-6 relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
-        <input
-          type="text"
-          placeholder="Rechercher un produit..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
+      {/* Search Bar + filtre */}
+      <div className="mb-6 flex flex-col sm:flex-row gap-3">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <input
+            type="text"
+            placeholder="Rechercher un produit..."
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
+        </div>
+        <select
+          value={categoryFilter}
+          onChange={(e) => setCategoryFilter(e.target.value)}
+          className="px-4 py-2 border border-gray-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="all">Toutes les catégories ({products.length})</option>
+          {Object.entries(CATEGORIES).map(([id, label]) => (
+            <option key={id} value={id}>{label} ({products.filter((p) => p.category === id).length})</option>
+          ))}
+        </select>
       </div>
 
       {/* Products Table */}
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead className="bg-gray-50 border-b border-gray-100">
             <tr>
@@ -94,12 +115,16 @@ export const ProductManagement = () => {
             ) : filteredProducts.map((product) => (
               <tr key={product.id} className="hover:bg-gray-50 transition-colors">
                 <td className="px-6 py-4">
-                  <img 
-                    src={product.image?.startsWith('http') ? product.image : `http://localhost:5000${product.image.replace('/images/produits', '/uploads')}`} 
-                    alt={product.name} 
-                    className="h-12 w-12 object-contain bg-gray-50 rounded"
-                    onError={(e) => { e.target.src = 'https://placehold.co/100x100?text=Product' }}
-                  />
+                  {product.image ? (
+                    <img
+                      src={productImageUrl(product.image)}
+                      alt={product.name}
+                      className="h-12 w-12 object-contain bg-gray-50 rounded"
+                      onError={(e) => { e.target.src = 'https://placehold.co/100x100?text=Product' }}
+                    />
+                  ) : (
+                    <div className="h-12 w-12 bg-gray-50 rounded flex items-center justify-center text-gray-300"><ImagePlus className="h-5 w-5" /></div>
+                  )}
                 </td>
                 <td className="px-6 py-4">
                   <div className="font-bold text-gray-900">{product.name}</div>
@@ -107,19 +132,19 @@ export const ProductManagement = () => {
                 </td>
                 <td className="px-6 py-4">
                   <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
-                    {product.category}
+                    {CATEGORIES[product.category] || product.category}
                   </span>
                 </td>
                 <td className="px-6 py-4 font-bold text-gray-900">{product.price} F</td>
                 <td className="px-6 py-4 text-right">
                   <div className="flex justify-end space-x-2">
-                    <button 
+                    <button
                       onClick={() => handleOpenModal(product)}
                       className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition"
                     >
                       <Pencil className="h-5 w-5" />
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleDelete(product.id)}
                       className="p-2 text-red-600 hover:bg-red-50 rounded-lg transition"
                     >
@@ -134,9 +159,9 @@ export const ProductManagement = () => {
       </div>
 
       {isModalOpen && (
-        <ProductForm 
-          product={editingProduct} 
-          onClose={() => setIsModalOpen(false)} 
+        <ProductForm
+          product={editingProduct}
+          onClose={() => setIsModalOpen(false)}
           onSuccess={() => {
             setIsModalOpen(false);
             fetchProducts();
@@ -162,6 +187,7 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
     features: []
   });
   const [imageFile, setImageFile] = useState(null);
+  const [preview, setPreview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [featureInput, setFeatureInput] = useState('');
 
@@ -188,29 +214,31 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
     setLoading(true);
 
     const data = new FormData();
+    const readOnly = ['id', 'image', 'createdAt', 'updatedAt'];
     Object.keys(formData).forEach(key => {
+      if (readOnly.includes(key)) return;
       if (key === 'features') {
         data.append(key, JSON.stringify(formData[key]));
       } else if (formData[key] !== null && formData[key] !== undefined) {
         data.append(key, formData[key]);
       }
     });
-    
+
     if (imageFile) {
       data.append('image', imageFile);
     }
 
     try {
       if (product) {
-        await axios.put(`http://localhost:5000/api/products/${product.id}`, data, {
-          headers: { 
+        await axios.put(`${API_URL}/api/products/${product.id}`, data, {
+          headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
           }
         });
       } else {
-        await axios.post('http://localhost:5000/api/products', data, {
-          headers: { 
+        await axios.post(`${API_URL}/api/products`, data, {
+          headers: {
             Authorization: `Bearer ${token}`,
             'Content-Type': 'multipart/form-data'
           }
@@ -218,7 +246,7 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
       }
       onSuccess();
     } catch (error) {
-      alert('Erreur lors de l\'enregistrement');
+      alert(error.response?.data?.error || 'Erreur lors de l\'enregistrement');
     } finally {
       setLoading(false);
     }
@@ -239,14 +267,14 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
           <div className="grid grid-cols-2 gap-4">
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Nom du produit *</label>
-              <input 
+              <input
                 type="text" name="name" required value={formData.name} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
-              <select 
+              <select
                 name="category" value={formData.category} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               >
@@ -254,33 +282,32 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
                 <option value="computers">Ordinateurs</option>
                 <option value="tablets">Tablettes</option>
                 <option value="accessories">Accessoires</option>
-                <option value="accessories">Accessoires</option>
               </select>
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Marque</label>
-              <input 
+              <input
                 type="text" name="brand" value={formData.brand} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Prix (F CFA) *</label>
-              <input 
+              <input
                 type="text" name="price" required value={formData.price} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Ancien Prix (Optionnel)</label>
-              <input 
+              <input
                 type="text" name="oldPrice" value={formData.oldPrice} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Stock</label>
-              <select 
+              <select
                 name="stock" value={formData.stock} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
               >
@@ -291,7 +318,7 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Garantie</label>
-              <input 
+              <input
                 type="text" name="warranty" value={formData.warranty} onChange={handleChange}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                 placeholder="Ex: 12 mois"
@@ -299,21 +326,38 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
             </div>
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Image du produit</label>
-              <input 
-                type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])}
-                className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
-              />
+              <div className="flex items-center gap-4">
+                <div className="w-24 h-24 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center overflow-hidden flex-shrink-0">
+                  {preview || product?.image ? (
+                    <img src={preview || productImageUrl(product.image)} alt="Aperçu" className="w-full h-full object-contain" />
+                  ) : (
+                    <ImagePlus className="h-6 w-6 text-gray-300" />
+                  )}
+                </div>
+                <input
+                  type="file" accept="image/jpeg,image/png,image/webp,image/gif,image/avif"
+                  onChange={(e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    if (preview) URL.revokeObjectURL(preview);
+                    setImageFile(file);
+                    setPreview(URL.createObjectURL(file));
+                  }}
+                  className="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+                />
+              </div>
+              <p className="text-xs text-gray-500 mt-1">JPG, PNG ou WebP, 5 Mo maximum.</p>
             </div>
             <div className="col-span-2">
               <label className="block text-sm font-medium text-gray-700 mb-1">Caractéristiques</label>
               <div className="flex gap-2 mb-2">
-                <input 
+                <input
                   type="text" value={featureInput} onChange={(e) => setFeatureInput(e.target.value)}
                   className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                   placeholder="Ex: Puce M3, 8 Go RAM..."
                   onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addFeature())}
                 />
-                <button 
+                <button
                   type="button" onClick={addFeature}
                   className="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 transition"
                 >
@@ -334,15 +378,15 @@ const ProductForm = ({ product, onClose, onSuccess }) => {
           </div>
 
           <div className="flex justify-end gap-4 mt-8">
-            <button 
+            <button
               type="button" onClick={onClose}
               className="px-6 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition"
             >
               Annuler
             </button>
-            <button 
+            <button
               type="submit" disabled={loading}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+              className="btn-xw !px-6 !py-2 disabled:opacity-50"
             >
               {loading ? 'Enregistrement...' : 'Enregistrer'}
             </button>

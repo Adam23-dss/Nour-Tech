@@ -1,0 +1,154 @@
+{
+  "projects": [
+    {
+      "title": "AgriMarket Tchad",
+      "short": "AgriMarket",
+      "category": "Mobile",
+      "description": "Application de vente directe entre producteurs et consommateurs au Tchad.",
+      "image": null,
+      "tags": [
+        "Flutter",
+        "Node.js",
+        "PostgreSQL",
+        "Socket.io"
+      ],
+      "link": "#",
+      "position": 0
+    },
+    {
+      "title": "Gestion des émargements aux examens",
+      "short": "Émargement",
+      "category": "Web & Mobile",
+      "description": "Application de suivi des présences aux examens en temps réel, avec exports Excel et PDF.",
+      "image": null,
+      "tags": [
+        "Flutter",
+        "Express",
+        "PostgreSQL",
+        "Temps réel"
+      ],
+      "link": "#",
+      "position": 1
+    },
+    {
+      "title": "AMAM – Hack2Hire 2025",
+      "short": "AMAM",
+      "category": "Data & IA",
+      "description": "Plateforme d'aide à la décision agricole : prévisions météo locales, Machine Learning et alertes SMS/WhatsApp.",
+      "image": null,
+      "tags": [
+        "Machine Learning",
+        "Python",
+        "Météo",
+        "Agriculture"
+      ],
+      "link": "#",
+      "position": 2
+    },
+    {
+      "title": "Nour Tech",
+      "short": "Nour Tech",
+      "category": "E-commerce",
+      "description": "Site vitrine et boutique en ligne avec panier, comparateur de produits et espace d'administration.",
+      "image": null,
+      "tags": [
+        "React",
+        "Node.js",
+        "SQLite",
+        "Tailwind"
+      ],
+      "link": "#",
+      "position": 3
+    },
+    {
+      "title": "SenMoney",
+      "short": "SenMoney",
+      "category": "Web",
+      "description": "Simulation d'un service de transfert d'argent.",
+      "image": null,
+      "tags": [
+        "JavaScript",
+        "jQuery"
+      ],
+      "link": "#",
+      "position": 4
+    }
+  ],
+  "posts": [
+    {
+      "slug": "digitaliser-son-commerce-au-tchad",
+      "title": "Comment digitaliser son commerce au Tchad en 2026",
+      "excerpt": "Site web, paiement mobile, réseaux sociaux : les étapes clés pour vendre en ligne.",
+      "category": "Transformation digitale",
+      "date": "2026-09-15",
+      "image": null,
+      "content": [
+        "Le commerce en ligne progresse rapidement au Tchad grâce au mobile money et aux réseaux sociaux. Pourtant, beaucoup de commerces n'ont pas encore de présence en ligne structurée.",
+        "Première étape : être visible. Une page Facebook et un compte WhatsApp Business bien tenus suffisent pour commencer. Ajoutez des photos claires, vos prix et vos horaires.",
+        "Deuxième étape : un site web. Il rassure vos clients, présente votre catalogue 24h/24 et vous rend trouvable sur Google.",
+        "Troisième étape : le paiement. Intégrer Airtel Money ou Moov Money permet d'encaisser à distance et de livrer plus vite.",
+        "Nour Tech vous accompagne sur chacune de ces étapes. Contactez-nous pour un diagnostic gratuit."
+      ]
+    },
+    {
+      "slug": "bien-choisir-son-smartphone",
+      "title": "Bien choisir son smartphone : notre guide",
+      "excerpt": "Batterie, stockage, appareil photo : les critères qui comptent vraiment.",
+      "category": "Conseils",
+      "date": "2026-09-02",
+      "image": null,
+      "content": [
+        "Face au nombre de modèles disponibles, il n'est pas facile de choisir. Commencez par définir votre budget et votre usage principal.",
+        "La batterie est souvent le critère le plus important : visez au moins 4 500 mAh pour tenir une journée complète.",
+        "Pour le stockage, 128 Go est aujourd'hui un minimum confortable, surtout si vous prenez beaucoup de photos et vidéos.",
+        "Enfin, vérifiez toujours l'authenticité et la garantie. Tous les produits de notre boutique sont garantis."
+      ]
+    },
+    {
+      "slug": "securiser-reseau-entreprise",
+      "title": "5 gestes pour sécuriser le réseau de votre entreprise",
+      "excerpt": "Mots de passe, sauvegardes, mises à jour : les bases pour éviter les mauvaises surprises.",
+      "category": "Sécurité",
+      "date": "2026-08-20",
+      "image": null,
+      "content": [
+        "1. Changez les mots de passe par défaut de vos routeurs et caméras.",
+        "2. Séparez le Wi-Fi invités du réseau de l'entreprise.",
+        "3. Faites des sauvegardes régulières, dont une copie hors du bureau.",
+        "4. Mettez à jour vos ordinateurs et équipements réseau.",
+        "5. Formez votre équipe à reconnaître les messages frauduleux.",
+        "Besoin d'un audit ? Notre équipe réseaux peut intervenir dans vos locaux."
+      ]
+    }
+  ],
+  "team": [
+    {
+      "name": "Saleh Mahamat Nour",
+      "role": "Fondateur & CEO",
+      "bio": "Visionnaire et expert en gestion de projets.",
+      "image": null,
+      "position": 0
+    },
+    {
+      "name": "Issa Mahamat Haran",
+      "role": "Directeur Commercial",
+      "bio": "Expert en relations clients et stratégie de vente.",
+      "image": null,
+      "position": 1
+    },
+    {
+      "name": "Adoum Mahamat Nour",
+      "role": "Lead Tech & Support",
+      "bio": "Spécialiste infrastructure et maintenance.",
+      "image": null,
+      "position": 2
+    },
+    {
+      "name": "Issakha Mahamat Nour",
+      "role": "Marketing Digital",
+      "bio": "Responsable de la présence en ligne et communauté.",
+      "image": null,
+      "position": 3
+    }
+  ]
+}

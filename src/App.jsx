@@ -26,6 +26,7 @@ import { AdminLogin } from './pages/admin/AdminLogin';
 import { AdminLayout } from './pages/admin/AdminLayout';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { ProductManagement } from './pages/admin/ProductManagement';
+import { AdminProjects, AdminPosts, AdminTeam } from './pages/admin/ContentPages';
 import { AdminProtectedRoute } from './pages/admin/AdminProtectedRoute';
 
 function App() {
@@ -60,6 +61,9 @@ function App() {
                   }>
                     <Route path="dashboard" element={<AdminDashboard />} />
                     <Route path="products" element={<ProductManagement />} />
+                    <Route path="projects" element={<AdminProjects />} />
+                    <Route path="posts" element={<AdminPosts />} />
+                    <Route path="team" element={<AdminTeam />} />
                     <Route index element={<AdminDashboard />} />
                   </Route>
 

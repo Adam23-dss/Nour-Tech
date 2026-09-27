@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import axios from 'axios';
 import { LockClosedIcon } from '@heroicons/react/24/solid';
+import { API_URL } from '../../utils/api';
 
 export const AdminLogin = () => {
   const [username, setUsername] = useState('');
@@ -18,7 +19,7 @@ export const AdminLogin = () => {
     setError('');
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', {
+      const response = await axios.post(`${API_URL}/api/auth/login`, {
         username,
         password,
       });

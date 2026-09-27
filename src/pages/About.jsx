@@ -12,6 +12,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { Link } from 'react-router-dom';
 import { MediaSlot } from '../components/ui/MediaSlot';
+import { useContent, mediaUrl } from '../utils/api';
 
 export const About = () => {
   const { t } = useTranslation();
@@ -20,32 +21,7 @@ export const About = () => {
     { value: "24/7", label: t('about.stats.support', 'Support'), icon: ShieldCheckIcon }
   ];
 
-  const team = [
-    {
-      name: "Saleh Mahamat Nour",
-      role: "Fondateur & CEO",
-      bio: "Visionnaire et expert en logistique internationale.",
-      image: null // ex. "/images/equipe/prenom.jpg"
-    },
-    {
-      name: "Issa Mahamat Haran",
-      role: "Directeur Commercial",
-      bio: "Expert en relations clients et stratégie de vente.",
-      image: null // ex. "/images/equipe/prenom.jpg"
-    },
-    {
-      name: "Adoum Mahamat Nour",
-      role: "Lead Tech & Support",
-      bio: "Spécialiste infrastructure et maintenance.",
-      image: null // ex. "/images/equipe/prenom.jpg"
-    },
-    {
-      name: "Issakha Mahamat Nour",
-      role: "Marketing Digital",
-      bio: "Responsable de la présence en ligne et communauté.",
-      image: null // ex. "/images/equipe/prenom.jpg"
-    }
-  ];
+  const { items: team } = useContent('team');
 
   return (
     <div className="bg-white pt-20 dark:bg-brand-black">
@@ -159,14 +135,14 @@ export const About = () => {
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {team.map((m, idx) => (
+            {team.map((m) => (
               <motion.div 
-                key={idx}
+                key={m.id}
                 whileHover={{ y: -10 }}
                 className="bg-white rounded-2xl overflow-hidden shadow-xl border border-gray-100 group dark:bg-[#1a1a1a] dark:border-white/10"
               >
                 <div className="h-80 overflow-hidden bg-gray-100 dark:bg-white/10">
-                  <MediaSlot src={m.image} alt={m.name} label={m.name.split(' ').map((w) => w[0]).slice(0, 2).join('')} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <MediaSlot src={mediaUrl(m.image)} alt={m.name} label={m.name.split(' ').map((w) => w[0]).slice(0, 2).join('')} imgClassName="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                 </div>
                 <div className="p-8">
                   <h3 className="text-2xl font-black text-gray-900 mb-2 dark:text-white">{m.name}</h3>

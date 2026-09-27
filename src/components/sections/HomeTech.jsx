@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { techServices, processSteps, projects, blogPosts } from '../../data/site';
+import { techServices, processSteps } from '../../data/site';
+import { useContent } from '../../utils/api';
 import { ProjectCard } from '../../pages/Projects';
 import { BlogCard } from '../../pages/Blog';
 
@@ -98,24 +99,32 @@ export const ProcessSection = () => (
   </section>
 );
 
-export const ProjectsSection = () => (
-  <section className="py-32 bg-gray-50 dark:bg-white/5">
-    <div className="container mx-auto px-6">
-      <SectionHeader eyebrow="Réalisations" title="Nos projets récents" link="/projets" linkLabel="Voir tous les projets" />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.slice(0, 3).map((p) => <ProjectCard key={p.slug} project={p} />)}
+export const ProjectsSection = () => {
+  const { items: projects } = useContent('projects');
+  if (!projects.length) return null;
+  return (
+    <section className="py-32 bg-gray-50 dark:bg-white/5">
+      <div className="container mx-auto px-6">
+        <SectionHeader eyebrow="Réalisations" title="Nos projets récents" link="/projets" linkLabel="Voir tous les projets" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.slice(0, 3).map((p) => <ProjectCard key={p.id} project={p} />)}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
-export const BlogSection = () => (
-  <section className="py-32">
-    <div className="container mx-auto px-6">
-      <SectionHeader eyebrow="Blog" title="Nos derniers articles" link="/blog" linkLabel="Tous les articles" />
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {blogPosts.slice(0, 3).map((post) => <BlogCard key={post.slug} post={post} />)}
+export const BlogSection = () => {
+  const { items: blogPosts } = useContent('posts');
+  if (!blogPosts.length) return null;
+  return (
+    <section className="py-32">
+      <div className="container mx-auto px-6">
+        <SectionHeader eyebrow="Blog" title="Nos derniers articles" link="/blog" linkLabel="Tous les articles" />
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {blogPosts.slice(0, 3).map((post) => <BlogCard key={post.id} post={post} />)}
+        </div>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
