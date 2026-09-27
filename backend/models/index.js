@@ -1,9 +1,14 @@
 const { Sequelize, DataTypes } = require('sequelize');
 const path = require('path');
+const fs = require('fs');
+
+if (process.env.DATA_DIR) fs.mkdirSync(process.env.DATA_DIR, { recursive: true });
 
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: path.join(__dirname, '../database.sqlite'),
+  storage: process.env.DATA_DIR
+    ? path.join(process.env.DATA_DIR, 'database.sqlite')
+    : path.join(__dirname, '../database.sqlite'),
   logging: false
 });
 

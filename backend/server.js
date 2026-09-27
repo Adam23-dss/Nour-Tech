@@ -7,26 +7,37 @@ const bcrypt = require('bcryptjs');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+
+// Chargé avant les modèles : DATA_DIR décide de l'emplacement de la base
+dotenv.config();
 const { sequelize, User, Product, Project, Post, TeamMember } = require('./models');
 
-dotenv.config();
 const app = express();
+
+// Images envoyées depuis l'admin : sur le disque persistant (DATA_DIR) en production,
+// sinon dans public/images du projet. Les images livrées avec le code restent servies en secours.
+const REPO_IMAGES = path.join(__dirname, '../public/images');
+const MEDIA_DIR = process.env.DATA_DIR ? path.join(process.env.DATA_DIR, 'images') : REPO_IMAGES;
 
 // Middleware
 app.use(cors());
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, '../public/images/produits')));
+app.use('/uploads', express.static(path.join(MEDIA_DIR, 'produits')), express.static(path.join(REPO_IMAGES, 'produits')));
 // Images gérées depuis l'admin (projets, blog, équipe)
-app.use('/media', express.static(path.join(__dirname, '../public/images')));
+app.use('/media', express.static(MEDIA_DIR), express.static(REPO_IMAGES));
 
 // JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || 'nourtech_secret_key_2024';
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.error('❌ JWT_SECRET doit être défini en production');
+  process.exit(1);
+}
 
 // Multer Configuration : images uniquement, 5 Mo max
 const makeUpload = (folder) => multer({
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      const dir = path.join(__dirname, '../public/images', folder);
+      const dir = path.join(MEDIA_DIR, folder);
       if (!fs.existsSync(dir)) {
         fs.mkdirSync(dir, { recursive: true });
       }
@@ -138,7 +149,7 @@ const slugify = (text = '') =>
   text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 // Supprime du disque une image envoyée depuis l'admin (chemins /media/... uniquement)
-const mediaRoot = path.resolve(__dirname, '../public/images');
+const mediaRoot = path.resolve(MEDIA_DIR);
 const removeMedia = (imagePath) => {
   if (!imagePath?.startsWith('/media/')) return;
   const file = path.resolve(mediaRoot, imagePath.slice('/media/'.length));
@@ -212,6 +223,23 @@ registerContent('team', TeamMember, 'equipe', [['position', 'ASC'], ['createdAt'
 // Crée les tables manquantes et remplit le contenu par défaut au premier démarrage
 const initContent = async () => {
   await sequelize.sync();
+
+  if (await User.count() === 0) {
+    const { ADMIN_USERNAME, ADMIN_PASSWORD } = process.env;
+    if (ADMIN_USERNAME && ADMIN_PASSWORD) {
+      await User.create({ username: ADMIN_USERNAME, password: await bcrypt.hash(ADMIN_PASSWORD, 10) });
+      console.log(`✅ Compte admin « ${ADMIN_USERNAME} » créé`);
+    } else {
+      console.warn('⚠️  Aucun compte admin : définissez ADMIN_USERNAME et ADMIN_PASSWORD puis redémarrez');
+    }
+  }
+
+  if (await Product.count() === 0) {
+    const { initialProducts } = require('./scripts/seed');
+    const { products2026 } = require('./scripts/products-2026');
+    await Product.bulkCreate([...initialProducts, ...[...products2026].reverse()]);
+  }
+
   const defaults = require('./scripts/content-defaults.json');
   if (await Project.count() === 0) await Project.bulkCreate(defaults.projects);
   if (await Post.count() === 0) await Post.bulkCreate(defaults.posts);
